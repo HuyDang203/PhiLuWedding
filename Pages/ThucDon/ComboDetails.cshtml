@@ -84,6 +84,18 @@
             }
         </header>
 
+        @* ---------- The picture of the menu ---------- *@
+        @if (!string.IsNullOrWhiteSpace(Model.Combo.ImagePath))
+        {
+            <figure class="combo-detail__figure">
+                <img class="combo-detail__image"
+                     src="@Model.Combo.ImagePath"
+                     alt="@($"Ảnh món ăn của {Model.Combo.Name}")"
+                     width="1536"
+                     height="1024" />
+            </figure>
+        }
+
         @* ---------- Dish list ---------- *@
         <div class="combo-detail__dishes">
             <h2 class="combo-detail__sub">Danh sách món trong combo</h2>

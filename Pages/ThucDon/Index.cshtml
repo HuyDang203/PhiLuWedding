@@ -144,11 +144,16 @@
                                                     <a class="menus-tier__option"
                                                        asp-page="/ThucDon/ComboDetails"
                                                        asp-route-id="@option.Id">
-                                                        <span class="menus-tier__option-name">@option.ShortName</span>
-                                                        @if (option.DishCount > 0)
+                                                        @if (!string.IsNullOrWhiteSpace(option.ImagePath))
                                                         {
-                                                            <span class="menus-tier__option-count">@option.DishCount món</span>
+                                                            <img class="menus-tier__option-image"
+                                                                 src="@option.ImagePath"
+                                                                 alt="@($"Ảnh món ăn của {option.ShortName}")"
+                                                                 loading="lazy"
+                                                                 width="1536"
+                                                                 height="1024" />
                                                         }
+                                                        <span class="menus-tier__option-name">@option.ShortName</span>
                                                         <span class="menus-tier__option-arrow" aria-hidden="true">&rarr;</span>
                                                         @* The tier name is hidden from the eye but read by the
                                                            screen reader, so two options that share a name

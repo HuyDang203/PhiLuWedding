@@ -570,6 +570,21 @@
     margin-bottom: var(--space-10);
 }
 
+/* ---------- The picture of the menu ---------- */
+.combo-detail__figure {
+    margin: 0 0 var(--space-9);
+}
+
+.combo-detail__image {
+    display: block;
+    width: 100%;
+    max-width: 720px;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+}
+
 .combo-dish-list {
     display: grid;
     grid-template-columns: 1fr;
@@ -934,7 +949,7 @@
 .menus-tier__option {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
+    gap: var(--space-2);
     min-height: 44px;
     padding: var(--space-2) var(--space-3);
     background-color: var(--color-paper);
@@ -956,13 +971,9 @@
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-strong);
     line-height: var(--lh-snug);
-}
-
-.menus-tier__option-count {
-    flex: 0 0 auto;
-    font-size: var(--fs-body-sm);
-    color: var(--color-text-muted);
-    white-space: nowrap;
+    /* A long option name wraps to a second line instead of running
+       into the arrow or the thumbnail. */
+    overflow-wrap: break-word;
 }
 
 .menus-tier__option-arrow {
@@ -975,6 +986,16 @@
 .menus-tier__option:focus-visible .menus-tier__option-arrow {
     transform: translateX(4px);
     color: var(--color-text-strong);
+}
+
+/* ---------- The picture of a menu option ---------- */
+.menus-tier__option-image {
+    flex: 0 0 auto;
+    width: 56px;
+    height: 37px;
+    object-fit: cover;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
 }
 
 /* ---------- Tier call to action ---------- */

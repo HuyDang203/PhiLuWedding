@@ -64,6 +64,14 @@ public class ComboDetailsModel : PageModel
                 .Select(m => new { m.Id, m.Name, m.Slug })
                 .FirstOrDefaultAsync();
 
+            // The price tier of the option — its key carries the name of the
+            // menu (price level + option code) the picture is named after.
+            var tierKey = await _db.MenuTiers
+                .AsNoTracking()
+                .Where(t => t.Id == combo.MenuTierId)
+                .Select(t => t.Key)
+                .FirstOrDefaultAsync();
+
             // Dishes in the combo. The restaurant has not provided dish
             // photos yet, so no image is loaded here.
             var dishes = await _db.MenuComboDishes
@@ -98,7 +106,9 @@ public class ComboDetailsModel : PageModel
                 combo.Price,
                 combo.GuestCount,
                 menuSet is null ? null : new MenuSetSummary(menuSet.Id, menuSet.Name, menuSet.Slug),
-                dishVms);
+                dishVms,
+                // The picture of the option, found by the names of the menus.
+                MenuImage.Resolve(tierKey, combo.OptionCode));
 
             return Page();
         }
@@ -122,7 +132,12 @@ public class ComboDetailsModel : PageModel
         decimal? Price,
         int? GuestCount,
         MenuSetSummary? ParentMenuSet,
-        IReadOnlyList<ComboDishViewModel> Dishes);
+        IReadOnlyList<ComboDishViewModel> Dishes,
+        /// <summary>
+        /// The path of the picture of this menu option, or <c>null</c> when
+        /// the option has no picture of its own.
+        /// </summary>
+        string? ImagePath);
 
     public sealed record MenuSetSummary(int Id, string Name, string Slug);
 

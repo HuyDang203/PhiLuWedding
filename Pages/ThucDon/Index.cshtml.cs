@@ -192,7 +192,10 @@ public class IndexModel : PageModel
                     o.Name,
                     BuildOptionShortName(o.Name, o.OptionCode!.Trim()),
                     o.SortOrder,
-                    o.DishCount))
+                    o.DishCount,
+                    // The picture of the option is found by the names of the
+                    // menus (price level + option code), never by id or order.
+                    MenuImage.Resolve(tier.Key, o.OptionCode)))
                 .ToList();
 
             var hasValidPrice = MenuPriceFormatter.IsDisplayable(tier.Price);
@@ -287,7 +290,12 @@ public class IndexModel : PageModel
         string ShortName,
         int SortOrder,
         /// <summary>The number of published dishes of this option.</summary>
-        int DishCount);
+        int DishCount,
+        /// <summary>
+        /// The path of the picture of this option, or <c>null</c> when the
+        /// option has no picture of its own.
+        /// </summary>
+        string? ImagePath);
 
     /// <summary>One option row of a price tier, as it is read from the database.</summary>
     private sealed record OptionRow(
