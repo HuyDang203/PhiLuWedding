@@ -250,14 +250,15 @@
 }
 
 /* ---------- Venue selection shell (cards live in venues.css) ----------
-   Cream-yellow page tint so the venue cards read as physical
-   invitation cards resting on the page surface (see venues.css for
-   the full reasoning). The home.css copy is kept in sync — venues.css
-   wins on load order, but having both explicit prevents drift. */
+   Ivory page surface, the same base background the other homepage
+   sections use (hero content and the booking CTA), so the venue
+   section no longer reads as a yellow block. The home.css copy is
+   kept in sync with venues.css — venues.css wins on load order, but
+   having both explicit prevents drift. */
 .venues {
     padding-top: var(--space-12);
     padding-bottom: var(--space-12);
-    background-color: var(--color-card-cream);
+    background-color: var(--color-ivory);
 }
 
 /* ---------- Booking CTA ---------- */

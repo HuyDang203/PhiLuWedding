@@ -220,15 +220,12 @@ body {
 }
 
 /* ---------- Page-scoped backgrounds ----------
-   The homepage uses a warm cream-yellow page tint so the venue cards
-   (which carry the same cream-yellow "paper" inside their gold border)
-   read as physical invitation cards resting on a single surface —
-   the cream of the card and the cream of the page flow into each
-   other, leaving the champagne border + chamfered inner frame +
-   corner dots to do the invitation work. Other pages keep the
-   default paper background. */
+   The homepage uses the same ivory surface as its main sections
+   (hero content, venue selection, booking CTA), so the page reads as
+   one continuous light background. Other pages keep the default
+   paper background. */
 body.page-home {
-    background-color: var(--color-card-cream);
+    background-color: var(--color-ivory);
 }
 
 img,
