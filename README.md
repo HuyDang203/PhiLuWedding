@@ -291,6 +291,33 @@ After the first successful deploy, Railway assigns a public URL such as
 `https://<service>.up.railway.app`. Do not hardcode this URL anywhere
 in the application; the platform sets it automatically.
 
+### Site icon (favicon)
+
+Google shows a site icon next to search results. It picks the icon per
+hostname, so the files have to live at the root of the domain that is
+actually indexed.
+
+Two files are served from `wwwroot/`:
+
+| File | Format | Size | Used by |
+| --- | --- | --- | --- |
+| `favicon.ico` | multi-frame ICO | 16 / 32 / 48 / 64 px | legacy browsers, and Google, which fetches `<host>/favicon.ico` |
+| `favicon.png` | PNG with alpha | 192 x 192 | modern browsers and the iOS home-screen shortcut (`apple-touch-icon`) |
+
+Both are the same Phì Lũ calligraphy mark. `Assets/Logo/PhiLuFavicon.png`
+is the source artwork and is byte-identical to `wwwroot/favicon.png`.
+
+The `<link>` tags live in `Pages/Shared/_Layout.cshtml` and use
+root-relative URLs with no version query string. The URL has to stay
+stable — adding `asp-append-version` would change it on every asset
+change, and Google would treat the icon as a different one.
+
+`wwwroot/robots.txt` allows all crawlers, including `Googlebot-Image`,
+which is the agent that downloads the icon files. Note that
+`robots.txt` only governs crawling: what actually matters is that both
+files answer `200` with the right `Content-Type` (`image/x-icon` and
+`image/png`), which `UseStaticFiles` already does.
+
 ---
 
 ## Tests

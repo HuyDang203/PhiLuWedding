@@ -1,0 +1,445 @@
+/* =====================================================================
+   VENUES — NHÀ HÀNG PHÌ LŨ
+   Phase 12 — public venue selection and per-venue hall grid.
+
+   Sections:
+     1. Homepage venue cards (.venues + .venue-card)
+     2. Standalone /tiec-cuoi venue selection page (.venues-page)
+     3. Per-venue hall grid (.venue-hall-grid + .venue-hall-card)
+
+   All classes use the `venue-` prefix so they never collide with the
+   homepage `.hall-*` rules or the halls listing `.halls-*` rules.
+
+   Phase UI/UX-03 — the shared foundations from site.css (semantic
+   text colours, --font-weight-* tokens, --measure-text) are applied
+   here so every page speaks the same type vocabulary.
+   ===================================================================== */
+
+/* ---------- Homepage venue section (.venues) ----------
+   Ivory page surface — the same base background used by the other
+   homepage sections (hero content, booking CTA). The venue cards
+   keep their own champagne border, chamfered inner frame and corner
+   dots, so they still read as invitation cards on the page. */
+.venues {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+    background-color: var(--color-ivory);
+}
+
+.venues .section-head--center {
+    margin-bottom: var(--space-10);
+}
+
+/* Two venue cards side-by-side from 480px and up.
+   Below that (very narrow phones) we still stack to keep each
+   card readable. The grid is tightened on the smallest breakpoint
+   so the 2-column row reads as a balanced pair rather than a stack. */
+.venues__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8) var(--space-5);
+    max-width: 1040px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ---------- Venue card (shared) ---------- */
+.venue-card {
+    background-color: transparent;
+}
+
+.venue-card__link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Cream-paper card: the image sits ON TOP of a warm cream paper
+   backing (think of a wedding invitation card — aged stationery with
+   a photo mounted in the middle). The padding reveals a generous
+   cream border; the inner gold frame lives in that border; small
+   decorative gold dots sit at the four outer corners like real
+   invitation ornaments. */
+.venue-card__media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: var(--color-card-cream);
+    margin-bottom: var(--space-6);
+    border: 1.5px solid var(--color-champagne);
+    padding: clamp(1.25rem, 2.4vw, 1.75rem);
+    transition: border-color var(--dur-base) var(--ease-soft),
+                box-shadow var(--dur-base) var(--ease-soft);
+    /* Subtle lift off the page — reads as a physical invitation card. */
+    box-shadow: 0 8px 24px rgba(74, 58, 46, 0.08);
+}
+
+.venue-card__media > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 720ms var(--ease-soft);
+    /* Tiny drop on the photo so it reads as a print glued on the paper. */
+    box-shadow: 0 2px 6px rgba(74, 58, 46, 0.12);
+}
+
+/* Inner gold chamfered frame — sits in the cream border just outside
+   the photo edge. Slightly inset from the padding so a thin cream
+   gap shows between the frame and the photo (the photo is mounted
+   on the cream, the frame is printed around it). */
+.venue-card__media::before {
+    content: "";
+    position: absolute;
+    inset: calc(clamp(1.25rem, 2.4vw, 1.75rem) - 8px);
+    border: 1px solid var(--color-champagne);
+    pointer-events: none;
+    z-index: 3;
+    transition: border-color var(--dur-base) var(--ease-soft);
+    clip-path: polygon(
+        14px 0,
+        calc(100% - 14px) 0,
+        100% 14px,
+        100% calc(100% - 14px),
+        calc(100% - 14px) 100%,
+        14px 100%,
+        0 calc(100% - 14px),
+        0 14px
+    );
+}
+
+/* Decorative gold corner ornaments — four small dots on the cream
+   paper, between the chamfered frame and the outer gold border.
+   Pure CSS via four radial-gradient backgrounds, one per corner. */
+.venue-card__media::after {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    pointer-events: none;
+    z-index: 4;
+    background:
+        radial-gradient(circle, var(--color-champagne) 2px, transparent 2.5px) top left / 6px 6px no-repeat,
+        radial-gradient(circle, var(--color-champagne) 2px, transparent 2.5px) top right / 6px 6px no-repeat,
+        radial-gradient(circle, var(--color-champagne) 2px, transparent 2.5px) bottom left / 6px 6px no-repeat,
+        radial-gradient(circle, var(--color-champagne) 2px, transparent 2.5px) bottom right / 6px 6px no-repeat;
+}
+
+.venue-card__link:hover .venue-card__media > img,
+.venue-card__link:focus-visible .venue-card__media > img {
+    transform: scale(1.035);
+}
+
+.venue-card__body {
+    text-align: center;
+    padding: 0 var(--space-2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Phase 02B: the card meta was the widest-tracked small type on the
+   site (0.14em over an uppercase sans, on top of an uppercase
+   string). The tracking is now the standard label scale and the
+   string is sentence case, so the card reads as a caption rather
+   than as a stamped seal. */
+.venue-card__meta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--ls-body);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+}
+
+.venue-card__title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 1.15rem + 1.1vw, 2.15rem);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--lh-display);
+    color: var(--color-text-strong);
+    margin-bottom: var(--space-3);
+    /* Keep long Phì Lũ title on one line — scale-down at very narrow widths. */
+    word-break: keep-all;
+    overflow-wrap: normal;
+    text-wrap: balance;
+}
+
+.venue-card__desc {
+    font-size: var(--fs-body);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--ls-body);
+    color: var(--color-text-muted);
+    line-height: var(--lh-body);
+    max-width: 48ch;
+    margin-bottom: var(--space-2);
+}
+
+
+.venue-card .link-arrow--inline {
+    margin-top: var(--space-5);
+}
+
+/* ---------- Standalone /tiec-cuoi venue selection ---------- */
+.venues-page {
+    padding-top: var(--space-10);
+    padding-bottom: var(--space-12);
+    background-color: var(--color-paper);
+}
+
+/* Phase 02B: the venue selection head used to be a centred block
+   with the title split across two <span> lines, the second one
+   italic — the same centred/italic/uppercase pattern that appeared
+   on every other page. The head is now left-aligned and the title
+   reads as one sentence, which is what a printed contents page
+   would do. */
+.venues-page__head {
+    max-width: 720px;
+    margin: 0 0 var(--space-10);
+    text-align: left;
+}
+
+.venues-page__head .eyebrow {
+    justify-content: flex-start;
+}
+
+.venues-page__title {
+    font-size: var(--fs-h1);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--lh-display);
+    letter-spacing: var(--ls-display);
+    color: var(--color-text-strong);
+    max-width: 20ch;
+}
+
+/* The two <span>s are line-break hints, not a two-slab layout: the
+   sentence flows and wraps where the measure asks it to. */
+.venues-page__title span {
+    display: inline;
+}
+
+.venues-page__lede {
+    margin-top: var(--space-5);
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-muted);
+    line-height: var(--lh-relaxed);
+    max-width: var(--measure-text);
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.venues-page__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-9) var(--space-7);
+    margin-bottom: var(--space-10);
+}
+
+/* The venue name on the selection page is the card title at page
+   scale — the same clamp, one step up. */
+.venue-card--page .venue-card__title {
+    font-size: clamp(1.75rem, 1.3rem + 1.4vw, 2.4rem);
+}
+
+.venues-page__cta {
+    text-align: center;
+}
+
+.venues-page__cta-note {
+    max-width: var(--measure-text);
+    margin: 0 auto var(--space-6);
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-muted);
+    line-height: var(--lh-body);
+}
+
+.venues-page__cta .btn {
+    margin-bottom: var(--space-3);
+}
+
+.venues-page__cta-home {
+    margin-top: var(--space-3);
+}
+
+@media (min-width: 480px) {
+    .venues__grid,
+    .venues-page__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-9) var(--space-6);
+    }
+}
+
+@media (min-width: 1024px) {
+    .venues__grid,
+    .venues-page__grid {
+        gap: var(--space-10) var(--space-8);
+    }
+}
+
+/* ---------- Per-venue hall grid (.venue-hall-grid) ---------- */
+.venue-hall-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8) var(--space-6);
+    margin-bottom: var(--space-10);
+}
+
+.venue-hall-card {
+    background-color: transparent;
+}
+
+.venue-hall-card__link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.venue-hall-card__media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: var(--color-card-cream);
+    margin-bottom: var(--space-5);
+    border: 1.5px solid var(--color-champagne);
+    padding: clamp(1.125rem, 2.2vw, 1.5rem);
+    transition: border-color var(--dur-base) var(--ease-soft),
+                box-shadow var(--dur-base) var(--ease-soft);
+    box-shadow: 0 8px 24px rgba(74, 58, 46, 0.08);
+}
+
+.venue-hall-card__media > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 720ms var(--ease-soft);
+    box-shadow: 0 2px 6px rgba(74, 58, 46, 0.12);
+}
+
+/* Inner gold chamfered frame — same envelope-cut as venue cards, scaled
+   down slightly for the smaller hall cards. Sits in the cream border
+   just outside the photo so a thin cream gap shows between the frame
+   and the photo edge. */
+.venue-hall-card__media::before {
+    content: "";
+    position: absolute;
+    inset: calc(clamp(1.125rem, 2.2vw, 1.5rem) - 7px);
+    border: 1px solid var(--color-champagne);
+    pointer-events: none;
+    z-index: 3;
+    transition: border-color var(--dur-base) var(--ease-soft);
+    clip-path: polygon(
+        12px 0,
+        calc(100% - 12px) 0,
+        100% 12px,
+        100% calc(100% - 12px),
+        calc(100% - 12px) 100%,
+        12px 100%,
+        0 calc(100% - 12px),
+        0 12px
+    );
+}
+
+/* Decorative gold corner ornaments — four small dots on the cream
+   paper. Same vocabulary as venue cards so every card type reads
+   as the same invitation style. */
+.venue-hall-card__media::after {
+    content: "";
+    position: absolute;
+    inset: 9px;
+    pointer-events: none;
+    z-index: 4;
+    background:
+        radial-gradient(circle, var(--color-champagne) 2px, transparent 2.5px) top left / 6px 6px no-repeat,
+        radial-gradient(circle, var(--color-champagne) 2px, transparent 2.5px) top right / 6px 6px no-repeat,
+        radial-gradient(circle, var(--color-champagne) 2px, transparent 2.5px) bottom left / 6px 6px no-repeat,
+        radial-gradient(circle, var(--color-champagne) 2px, transparent 2.5px) bottom right / 6px 6px no-repeat;
+}
+
+.venue-hall-card__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-5);
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    letter-spacing: var(--ls-caption);
+    text-transform: uppercase;
+    /* Decorative placeholder — the subtle tone is enough. */
+    color: var(--color-text-subtle);
+    background:
+        linear-gradient(135deg, transparent 49%, var(--color-line) 49% 51%, transparent 51%) center / 22px 22px no-repeat,
+        var(--color-cream);
+}
+
+.venue-hall-card__link:hover .venue-hall-card__media,
+.venue-hall-card__link:focus-visible .venue-hall-card__media {
+    border-color: var(--color-brown);
+    box-shadow: 0 12px 30px rgba(74, 58, 46, 0.14);
+}
+
+.venue-hall-card__link:hover .venue-hall-card__media > img,
+.venue-hall-card__link:focus-visible .venue-hall-card__media > img {
+    transform: scale(1.04);
+}
+
+.venue-hall-card__body {
+    text-align: center;
+    padding: 0 var(--space-2);
+}
+
+.venue-hall-card__meta {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h4);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-strong);
+    margin-bottom: var(--space-3);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--ls-serif);
+}
+
+
+.venue-hall-card__capacity {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--ls-body);
+    line-height: var(--lh-snug);
+    color: var(--color-text);
+    margin: 0 0 var(--space-2);
+}
+
+.venue-hall-card .link-arrow--inline {
+    margin-top: var(--space-5);
+}
+
+/* The 2x2 desktop grid: exactly 2 columns, 2 rows visible at once. */
+@media (min-width: 720px) {
+    .venue-hall-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-9) var(--space-7);
+    }
+}
+
+/* ---------- Venue page header (shared) ---------- */
+.halls-venue .halls-page__title {
+    font-size: var(--fs-h1);
+}
+
+.halls-page__cta-back {
+    display: inline-flex;
+    margin-bottom: var(--space-6);
+    letter-spacing: var(--ls-caption);
+}
+
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .venue-card__media img,
+    .venue-hall-card__media img {
+        transition: none;
+    }
+}

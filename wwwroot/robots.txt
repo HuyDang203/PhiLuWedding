@@ -1,0 +1,21 @@
+# robots.txt - Nha Hang Phi Lu Wedding
+#
+# The whole site is public, so everything is crawlable.
+#
+# The favicon files are deliberately left crawlable. Google fetches the
+# site icon for a hostname from that host's /favicon.ico, and the image
+# crawler (Googlebot-Image) downloads /favicon.ico and /favicon.png to
+# decide which file to show in the Search results. If either file were
+# blocked here, Google would fall back to its generic globe icon.
+#
+# Note that /robots.txt only governs crawling. Serving these files with
+# a 200 response and a correct Content-Type is what matters.
+
+User-agent: *
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /

@@ -1,0 +1,370 @@
+/* =====================================================================
+   HOMEPAGE — NHÀ HÀNG PHÌ LŨ
+   Sections:
+     1. Hero (split editorial)
+     2. Introduction (framed two-column)
+     3. Venue selection (.venues + .venue-card — styles in venues.css)
+     4. Booking CTA (framed centered)
+   Phase 12 — the hall preview 4-card section was replaced by the
+   two venue cards in venues.css; only the surrounding section shell
+   (.venues padding + .section-head spacing) lives here.
+
+   Phase UI/UX-03 — the shared foundations from site.css (semantic
+   text colours, --font-weight-* tokens, --measure-text) are applied
+   here so every page speaks the same type vocabulary.
+   ===================================================================== */
+
+/* ---------- Hero ---------- */
+.hero {
+    position: relative;
+    background-color: var(--color-paper);
+    overflow: hidden;
+}
+
+.hero__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: clamp(520px, 82vh, 760px);
+}
+
+.hero__media {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-cream);
+    aspect-ratio: 5 / 6;
+    order: 1;
+}
+
+.hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.hero__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-5);
+    padding: var(--space-9) var(--container-px) var(--space-10);
+    background-color: var(--color-ivory);
+    order: 2;
+    max-width: 640px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Phase 02B: the hero title used to be four <span> blocks, each on
+   its own line, with every even span switched to italic — the title
+   read as four fragments and the italic had nothing to emphasise.
+   It is now one sentence with a single deliberate italic accent on
+   the closing phrase, so the eye has one place to land. */
+.hero__title {
+    font-size: var(--fs-display);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--lh-display);
+    letter-spacing: var(--ls-display);
+    color: var(--color-text-strong);
+    /* The accent sits on its own line on wide screens, but the title
+       must never be forced into a fixed number of lines. */
+    max-width: 22ch;
+    text-wrap: balance;
+}
+
+.hero__title .title-accent {
+    display: block;
+    margin-top: var(--space-2);
+}
+
+.hero__lede {
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-muted);
+    max-width: 38ch;
+    line-height: var(--lh-relaxed);
+}
+
+.hero__rule {
+    display: inline-block;
+    width: 36px;
+    height: 1px;
+    background-color: var(--color-champagne);
+    margin-top: var(--space-2);
+}
+
+/* Subtle botanical mark — pure CSS, top-right of hero */
+.hero__botanical {
+    position: absolute;
+    top: var(--space-7);
+    right: var(--space-7);
+    width: 72px;
+    height: 72px;
+    pointer-events: none;
+    opacity: 0.5;
+    background:
+        radial-gradient(circle at 50% 50%, var(--color-champagne) 0 1.5px, transparent 2px) 0 0 / 100% 100% no-repeat;
+    mask-image: radial-gradient(circle at 50% 50%, black 0 36%, transparent 37%);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, black 0 36%, transparent 37%);
+}
+
+.hero__botanical::before,
+.hero__botanical::after {
+    content: "";
+    position: absolute;
+    background-color: var(--color-champagne);
+}
+
+.hero__botanical::before {
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform: translateY(-50%);
+}
+
+.hero__botanical::after {
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-50%);
+}
+
+@media (min-width: 1024px) {
+    .hero__grid {
+        grid-template-columns: 1.05fr 1fr;
+    }
+
+    .hero__media {
+        aspect-ratio: auto;
+        height: 100%;
+        order: 1;
+    }
+
+    .hero__content {
+        order: 2;
+        padding: var(--space-12) var(--space-10);
+        max-width: none;
+        gap: var(--space-6);
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1279.98px) {
+    /* The two-column hero is at its narrowest here: the text
+       column keeps roughly 360px after padding, so the display
+       size steps down a notch and the padding loosens, keeping
+       the title to four calm lines instead of five cramped ones. */
+    .hero__content {
+        padding: var(--space-10) var(--space-8);
+    }
+
+    .hero__title {
+        font-size: clamp(2.5rem, 1.35rem + 2.6vw, 3.1rem);
+        max-width: 24ch;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023.98px) {
+    .hero__content {
+        padding: var(--space-10) var(--space-8);
+    }
+}
+
+/* ---------- Introduction ---------- */
+.intro {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+    background-color: var(--color-cream);
+}
+
+.intro__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-9);
+    align-items: center;
+}
+
+.intro__text {
+    max-width: 520px;
+}
+
+.intro__lede {
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-8);
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-muted);
+    line-height: var(--lh-relaxed);
+}
+
+.intro__media {
+    position: relative;
+}
+
+.intro__frame {
+    position: relative;
+    aspect-ratio: 5 / 6;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-paper);
+}
+
+/* Wedding-invitation style — inner frame with chamfered corners
+   (the classic thiệp cưới envelope-cut look). The clip-path cuts the
+   4 corners at a 45° so the border line reads as a soft envelope flap. */
+.intro__frame::before {
+    content: "";
+    position: absolute;
+    inset: 14px;
+    border: 1px solid var(--color-champagne);
+    pointer-events: none;
+    z-index: 1;
+    transition: border-color var(--dur-base) var(--ease-soft);
+    clip-path: polygon(
+        28px 0,
+        calc(100% - 28px) 0,
+        100% 28px,
+        100% calc(100% - 28px),
+        calc(100% - 28px) 100%,
+        28px 100%,
+        0 calc(100% - 28px),
+        0 28px
+    );
+}
+
+.intro__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 720ms var(--ease-soft);
+}
+
+.intro__media:hover .intro__image {
+    transform: scale(1.025);
+}
+
+@media (min-width: 1024px) {
+    .intro__grid {
+        grid-template-columns: 1fr 1.05fr;
+        gap: var(--space-11);
+    }
+}
+
+/* ---------- Venue selection shell (cards live in venues.css) ----------
+   Ivory page surface, the same base background the other homepage
+   sections use (hero content and the booking CTA), so the venue
+   section no longer reads as a yellow block. The home.css copy is
+   kept in sync with venues.css — venues.css wins on load order, but
+   having both explicit prevents drift. */
+.venues {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+    background-color: var(--color-ivory);
+}
+
+/* ---------- Booking CTA ---------- */
+.booking {
+    padding-top: var(--space-11);
+    padding-bottom: var(--space-12);
+    background-color: var(--color-ivory);
+}
+
+.booking__inner {
+    position: relative;
+    max-width: 820px;
+    margin: 0 auto;
+}
+
+.booking__frame {
+    position: relative;
+    padding: clamp(2.5rem, 4vw, 4.5rem) clamp(1.75rem, 4vw, 3.5rem);
+    text-align: center;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-paper);
+}
+
+.booking__frame::before {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border: 1px solid var(--color-line);
+    pointer-events: none;
+}
+
+/* Corner ornaments — small dots at the four corners of the inner frame */
+.booking__frame::after {
+    content: "";
+    position: absolute;
+    inset: 18px;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 0 0, var(--color-champagne) 0 2px, transparent 3px) top left / 100% 100% no-repeat,
+        radial-gradient(circle at 100% 0, var(--color-champagne) 0 2px, transparent 3px) top right / 100% 100% no-repeat,
+        radial-gradient(circle at 0 100%, var(--color-champagne) 0 2px, transparent 3px) bottom left / 100% 100% no-repeat,
+        radial-gradient(circle at 100% 100%, var(--color-champagne) 0 2px, transparent 3px) bottom right / 100% 100% no-repeat;
+}
+
+.booking__frame .eyebrow,
+.booking__frame .section-title,
+.booking__frame .booking__lede,
+.booking__frame .btn {
+    position: relative;
+    z-index: 1;
+}
+
+.booking__lede {
+    margin: var(--space-6) auto var(--space-8);
+    max-width: 44ch;
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-muted);
+    line-height: var(--lh-relaxed);
+}
+
+.booking__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-5);
+}
+
+.booking__actions .btn,
+.booking__actions .link-arrow {
+    margin-top: 0;
+}
+
+.booking__botanical {
+    position: absolute;
+    left: 50%;
+    bottom: -22px;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 1px;
+    background-color: var(--color-border);
+}
+
+.booking__botanical::before,
+.booking__botanical::after {
+    content: "";
+    position: absolute;
+    top: -3px;
+    width: 7px;
+    height: 7px;
+    border: 1px solid var(--color-champagne);
+    background-color: var(--color-ivory);
+    border-radius: 50%;
+}
+
+.booking__botanical::before {
+    left: -10px;
+}
+
+.booking__botanical::after {
+    right: -10px;
+}
+
+/* ---------- Responsive tweaks ---------- */
+@media (max-width: 599.98px) {
+    .hero__botanical {
+        display: none;
+    }
+}

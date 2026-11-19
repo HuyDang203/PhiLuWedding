@@ -1,0 +1,562 @@
+/* =====================================================================
+   HALLS LISTING & DETAIL — NHÀ HÀNG PHÌ LŨ
+   Scoped to the public /tiec-cuoi listing and /tiec-cuoi/{id} detail.
+   All classes are prefixed with `halls-page` (or use the `.halls-`
+   prefix) so they never collide with the homepage `.hall-*` rules
+   in home.css.
+
+   Phase UI/UX-03 — the shared foundations from site.css (semantic
+   text colours, --font-weight-* tokens, --measure-text) are applied
+   here so every page speaks the same type vocabulary.
+   ===================================================================== */
+
+/* ---------- Listing page hero ---------- */
+.halls-page {
+    padding-top: var(--space-10);
+    padding-bottom: var(--space-12);
+    background-color: var(--color-paper);
+}
+
+/* Phase 02B: the hall-listing head was a centred block with an
+   italic second line, identical in shape to the menu, venue and
+   booking heads. It is now left-aligned with the title flowing as
+   one sentence, so the two listing pages no longer read as the same
+   template with different words. */
+.halls-page__head {
+    max-width: 720px;
+    margin: 0 0 var(--space-10);
+    text-align: left;
+}
+
+.halls-page__head .eyebrow {
+    justify-content: flex-start;
+}
+
+.halls-page__title {
+    font-size: var(--fs-h1);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--lh-display);
+    letter-spacing: var(--ls-display);
+    color: var(--color-text-strong);
+    max-width: 20ch;
+}
+
+/* The <span> markers are line-break hints, not a two-slab layout. */
+.halls-page__title span {
+    display: inline;
+}
+
+.halls-page__lede {
+    margin-top: var(--space-5);
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-muted);
+    line-height: var(--lh-relaxed);
+    max-width: var(--measure-text);
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* ---------- Notices (DB down / empty) ---------- */
+.halls-page__notice {
+    max-width: 720px;
+    margin: var(--space-8) auto;
+    padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 2.75rem);
+    text-align: center;
+    background-color: var(--color-ivory);
+    border: 1px solid var(--color-border);
+}
+
+.halls-page__notice::before {
+    content: "";
+    display: block;
+    width: 36px;
+    height: 1px;
+    background-color: var(--color-champagne);
+    margin: 0 auto var(--space-6);
+}
+
+.halls-page__notice-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h3);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-strong);
+    margin-bottom: var(--space-3);
+    line-height: var(--lh-tight);
+}
+
+.halls-page__notice-body {
+    color: var(--color-text-muted);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    margin-bottom: var(--space-6);
+}
+
+/* ---------- Card grid ---------- */
+.halls-page__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-9) var(--space-7);
+    margin-bottom: var(--space-10);
+}
+
+.halls-card {
+    background-color: transparent;
+}
+
+.halls-card__link {
+    display: block;
+    color: inherit;
+}
+
+.halls-card__media {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background-color: var(--color-card-cream);
+    margin-bottom: var(--space-6);
+    border: 1.5px solid var(--color-champagne);
+    padding: clamp(1.125rem, 2.2vw, 1.5rem);
+    transition: border-color var(--dur-base) var(--ease-soft),
+                box-shadow var(--dur-base) var(--ease-soft);
+    box-shadow: 0 8px 24px rgba(74, 58, 46, 0.08);
+}
+
+.halls-card__media > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 720ms var(--ease-soft);
+    box-shadow: 0 2px 6px rgba(74, 58, 46, 0.12);
+}
+
+/* Inner gold chamfered frame — same envelope-cut look as the venue
+   cards, scaled to the taller 4/5 hall card. Sits in the cream
+   border just outside the photo edge so a thin cream gap shows
+   between the frame and the photo (the photo is mounted, the frame
+   is printed around it). */
+.halls-card__media::before {
+    content: "";
+    position: absolute;
+    inset: calc(clamp(1.125rem, 2.2vw, 1.5rem) - 7px);
+    border: 1px solid var(--color-champagne);
+    pointer-events: none;
+    z-index: 3;
+    transition: border-color var(--dur-base) var(--ease-soft);
+    clip-path: polygon(
+        12px 0,
+        calc(100% - 12px) 0,
+        100% 12px,
+        100% calc(100% - 12px),
+        calc(100% - 12px) 100%,
+        12px 100%,
+        0 calc(100% - 12px),
+        0 12px
+    );
+}
+
+/* Decorative gold corner ornaments — four small dots on the cream
+   paper. Same vocabulary across all card types so every card reads
+   as part of the same invitation design language. */
+.halls-card__media::after {
+    content: "";
+    position: absolute;
+    inset: 9px;
+    pointer-events: none;
+    z-index: 4;
+    background:
+        radial-gradient(circle, var(--color-champagne) 2px, transparent 2.5px) top left / 6px 6px no-repeat,
+        radial-gradient(circle, var(--color-champagne) 2px, transparent 2.5px) top right / 6px 6px no-repeat,
+        radial-gradient(circle, var(--color-champagne) 2px, transparent 2.5px) bottom left / 6px 6px no-repeat,
+        radial-gradient(circle, var(--color-champagne) 2px, transparent 2.5px) bottom right / 6px 6px no-repeat;
+}
+
+.halls-card__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-5);
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    letter-spacing: var(--ls-caption);
+    text-transform: uppercase;
+    /* Decorative placeholder — the subtle tone is enough. */
+    color: var(--color-text-subtle);
+    background:
+        linear-gradient(135deg, transparent 49%, var(--color-line) 49% 51%, transparent 51%) center / 22px 22px no-repeat,
+        var(--color-cream);
+}
+
+
+.halls-card__link:hover .halls-card__media,
+.halls-card__link:focus-visible .halls-card__media {
+    border-color: var(--color-brown);
+    box-shadow: 0 12px 30px rgba(74, 58, 46, 0.14);
+}
+
+.halls-card__link:hover .halls-card__media > img,
+.halls-card__link:focus-visible .halls-card__media > img {
+    transform: scale(1.04);
+}
+
+.halls-card__body {
+    text-align: center;
+    padding: 0 var(--space-2);
+}
+
+.halls-card__meta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--ls-body);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+}
+
+
+.halls-card__title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h4);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-strong);
+    margin-bottom: var(--space-3);
+    line-height: var(--lh-tight);
+}
+
+.halls-card__meta-row {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+    margin-bottom: 0;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+}
+
+.halls-card__meta-label {
+    color: var(--color-text-muted);
+    letter-spacing: var(--ls-body);
+    font-size: var(--fs-body-sm);
+}
+
+
+.halls-card__meta-value {
+    color: var(--color-text);
+    font-weight: var(--font-weight-medium);
+}
+
+.halls-card .link-arrow--inline {
+    margin-top: var(--space-6);
+}
+
+@media (min-width: 600px) {
+    .halls-page__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-9) var(--space-6);
+    }
+}
+
+@media (min-width: 1024px) {
+    .halls-page__grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-10) var(--space-7);
+    }
+
+    .halls-card__title {
+        font-size: var(--fs-h3);
+    }
+}
+
+@media (min-width: 1280px) {
+    .halls-page__grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ---------- Listing CTA ---------- */
+.halls-page__cta {
+    text-align: center;
+    margin-top: var(--space-8);
+}
+
+.halls-page__cta-note {
+    max-width: var(--measure-text);
+    margin: 0 auto var(--space-6);
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-muted);
+    line-height: var(--lh-body);
+}
+
+.halls-page__cta .btn {
+    margin-bottom: var(--space-3);
+}
+
+.halls-page__cta-secondary {
+    margin-top: var(--space-3);
+}
+
+/* ---------- Detail page ---------- */
+.halls-detail__crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-8);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    letter-spacing: var(--ls-caption);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+
+.halls-detail__crumbs a {
+    color: var(--color-text);
+    border-bottom: 1px solid transparent;
+    transition: color var(--dur-fast) var(--ease-soft),
+                border-bottom-color var(--dur-fast) var(--ease-soft);
+}
+
+.halls-detail__crumbs a:hover,
+.halls-detail__crumbs a:focus-visible {
+    color: var(--color-text-strong);
+    border-bottom-color: var(--color-champagne);
+}
+
+.halls-detail__crumbs span[aria-current] {
+    color: var(--color-text-strong);
+}
+
+/* Phase 02B: the hall detail head was centred as well. The venue
+   and hall pages now share one left-aligned editorial grammar. */
+.halls-detail__head {
+    text-align: left;
+    max-width: 720px;
+    margin: 0 0 var(--space-9);
+}
+
+.halls-detail__head .eyebrow {
+    justify-content: flex-start;
+}
+
+.halls-detail__lede {
+    margin-top: var(--space-5);
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-muted);
+    line-height: var(--lh-relaxed);
+    max-width: var(--measure-text);
+}
+
+/* Gallery */
+.halls-gallery {
+    margin-bottom: var(--space-10);
+}
+
+.halls-gallery__primary {
+    margin: 0;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-cream);
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+}
+
+.halls-gallery__primary img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.halls-gallery__primary--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    letter-spacing: var(--ls-caption);
+    text-transform: uppercase;
+    /* Decorative placeholder — the subtle tone is enough. */
+    color: var(--color-text-subtle);
+}
+
+
+.halls-gallery__thumbs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+}
+
+.halls-gallery__thumb {
+    border: 1px solid var(--color-border);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: var(--color-cream);
+}
+
+.halls-gallery__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 720ms var(--ease-soft);
+}
+
+.halls-gallery__thumb:hover img,
+.halls-gallery__thumb:focus-within img {
+    transform: scale(1.03);
+}
+
+.halls-gallery__thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(135deg, transparent 49%, var(--color-line) 49% 51%, transparent 51%) center / 22px 22px no-repeat,
+        var(--color-cream);
+}
+
+.halls-gallery--empty {
+    text-align: center;
+    padding: var(--space-9) var(--space-5);
+    background-color: var(--color-ivory);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+@media (min-width: 768px) {
+    .halls-gallery__thumbs {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Detail body + sidebar */
+.halls-detail__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    margin-bottom: var(--space-10);
+}
+
+.halls-detail__sub {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h4);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-strong);
+    margin-bottom: var(--space-5);
+    position: relative;
+    padding-bottom: var(--space-4);
+}
+
+.halls-detail__sub::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 32px;
+    height: 1px;
+    background-color: var(--color-champagne);
+}
+
+.halls-detail__body {
+    max-width: var(--measure-text);
+}
+
+.halls-detail__description {
+    color: var(--color-text);
+    font-size: var(--fs-body-lg);
+    line-height: var(--lh-relaxed);
+    white-space: pre-line;
+}
+
+.halls-detail__meta {
+    padding: var(--space-7);
+    background-color: var(--color-ivory);
+    border: 1px solid var(--color-border);
+}
+
+.halls-detail__list {
+    margin: 0 0 var(--space-7);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.halls-detail__row {
+    display: grid;
+    grid-template-columns: minmax(110px, 30%) 1fr;
+    gap: var(--space-4);
+    align-items: baseline;
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-line);
+}
+
+.halls-detail__row:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+.halls-detail__row dt {
+    font-family: var(--font-sans);
+    font-size: var(--fs-label);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+
+.halls-detail__row dd {
+    margin: 0;
+    color: var(--color-text);
+    font-size: var(--fs-body);
+}
+
+.halls-detail__cta {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: var(--space-3);
+}
+
+.halls-detail__cta-note {
+    margin: 0 0 var(--space-5);
+    text-align: center;
+    font-size: var(--fs-body-sm);
+    color: var(--color-text-muted);
+    line-height: var(--lh-body);
+}
+
+.halls-detail__back {
+    display: inline-flex;
+}
+
+@media (min-width: 900px) {
+    .halls-detail__grid {
+        grid-template-columns: 1.5fr 1fr;
+        gap: var(--space-10);
+        align-items: start;
+    }
+
+    .halls-detail__sub {
+        font-size: var(--fs-h3);
+    }
+}
+
+/* ---------- 404 fallback (model returns NotFound, but if we ever
+   short-circuit before the redirect this still looks polished) ---------- */
+.halls-page--notfound {
+    text-align: center;
+}
+
+.halls-page--notfound .halls-page__title span {
+    display: inline;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .halls-card__media img,
+    .halls-gallery__thumb img {
+        transition: none;
+    }
+}

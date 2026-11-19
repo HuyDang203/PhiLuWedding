@@ -28,12 +28,17 @@
     <title>@fullTitle</title>
 
     <!-- Favicon — the Phì Lũ calligraphy mark, served from the site root.
-         /favicon.ico carries 16/32/48/64 px frames for legacy browsers;
-         /favicon.png is the 192 px square used by modern browsers and by
-         the iOS home-screen shortcut (apple-touch-icon). -->
-    <link rel="icon" href="~/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/png" href="~/favicon.png" sizes="192x192" />
-    <link rel="apple-touch-icon" href="~/favicon.png" />
+         /favicon.ico is a multi-frame ICO (16/32/48/64 px frames) for
+         legacy browsers; /favicon.png is the 192 px square master used by
+         modern browsers and by the iOS home-screen shortcut.
+         Both URLs are root-relative on purpose and carry no version
+         query string: Google fetches the site icon for a hostname from
+         that host's /favicon.ico, and the favicon URL must stay stable.
+         The image crawler (Googlebot-Image) has to be able to reach
+         both files, so wwwroot/robots.txt allows them. -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16 32x32 48x48 64x64" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
 
     <!-- Fonts: Newsreader (display serif) + Source Sans 3 (body sans)
          Phase 02B. Both families are served from Google Fonts with the

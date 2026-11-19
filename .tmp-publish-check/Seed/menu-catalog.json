@@ -1,0 +1,212 @@
+{
+  "menuSet": {
+    "key": "wedding-menu",
+    "name": "Thực đơn tiệc cưới",
+    "slug": "menu-tiec-cuoi",
+    "shortDescription": "Thực đơn tiệc cưới dùng chung cho Trung tâm Hội nghị Tiệc cưới Phì Lũ và Golden Phoenix.",
+    "description": "Giá theo bàn 10 khách. Bốn mức giá: 2.500.000, 3.000.000, 4.000.000 và 5.000.000 đồng; phương án C chỉ có ở mức 5.000.000 đồng.",
+    "venueScope": "Both",
+    "sortOrder": 10
+  },
+
+  "tiers": [
+    {
+      "key": "tier-02",
+      "name": "Thực đơn 2.500.000 đồng/bàn",
+      "slug": "menu-tiec-cuoi-tier-02",
+      "description": "Mức giá 2.500.000 đồng cho một bàn 10 khách.",
+      "price": 2500000,
+      "guestsPerTable": 10,
+      "sortOrder": 10,
+      "venueScope": "Both",
+      "options": [
+        {
+          "code": "A",
+          "name": "Phương án A",
+          "sortOrder": 10,
+          "dishes": [
+            "Gỏi hoa chuối + bpt",
+            "Súp bí đao thập cẩm",
+            "Phi lê cá basa xóc tỏi",
+            "Hoành thánh chiên",
+            "Vịt hầm khoai môn + bánh mỳ",
+            "Trái cây"
+          ]
+        },
+        {
+          "code": "B",
+          "name": "Phương án B",
+          "sortOrder": 20,
+          "dishes": [
+            "Salad mầm cải cá ngừ",
+            "Súp nấm nấu gà",
+            "Cá diêu hồng phi lê rang muối",
+            "Chả giò thanh cua cuộn rong biển",
+            "Giò heo áp cải sốt XO + bánh mỳ",
+            "Trái cây"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "tier-04",
+      "name": "Thực đơn 3.000.000 đồng/bàn",
+      "slug": "menu-tiec-cuoi-tier-04",
+      "description": "Mức giá 3.000.000 đồng cho một bàn 10 khách.",
+      "price": 3000000,
+      "guestsPerTable": 10,
+      "sortOrder": 20,
+      "venueScope": "Both",
+      "options": [
+        {
+          "code": "A",
+          "name": "Phương án A",
+          "sortOrder": 10,
+          "dishes": [
+            "Khai vị HongKong",
+            "Súp hoành thánh",
+            "Gà quay bơ",
+            "Cá basa phi lê rang muối",
+            "Sườn non nấu cary + bánh mỳ",
+            "Trái cây"
+          ]
+        },
+        {
+          "code": "B",
+          "name": "Phương án B",
+          "sortOrder": 20,
+          "dishes": [
+            "Khai vị Ordeux & kim chi",
+            "Súp cá hồi ngũ vị",
+            "Bắp bò phá lấu + kim chi",
+            "Tôm bạc xóc tỏi",
+            "Vịt hầm khoai môn + bánh mỳ",
+            "Trái cây"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "tier-07",
+      "name": "Thực đơn 4.000.000 đồng/bàn",
+      "slug": "menu-tiec-cuoi-tier-07",
+      "description": "Mức giá 4.000.000 đồng cho một bàn 10 khách.",
+      "price": 4000000,
+      "guestsPerTable": 10,
+      "sortOrder": 30,
+      "venueScope": "Both",
+      "options": [
+        {
+          "code": "A",
+          "name": "Phương án A",
+          "sortOrder": 10,
+          "dishes": [
+            "Gỏi bắp bò bóp thấu + bpt",
+            "Súp hải sâm 03 vị",
+            "Bồ câu quay + bánh bao chiên",
+            "Tôm sú cocktail",
+            "Giò heo Bát Trân + bánh mỳ",
+            "Đông sương trái cây"
+          ]
+        },
+        {
+          "code": "B",
+          "name": "Phương án B",
+          "sortOrder": 20,
+          "dishes": [
+            "Khai vị Tình Yêu",
+            "Súp tóc tiên hải sản",
+            "Tôm sú sốt XO",
+            "Cá mú hấp xì dầu",
+            "Vịt tiềm sen + bánh mỳ",
+            "Trái cây"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "tier-08",
+      "name": "Thực đơn 5.000.000 đồng/bàn",
+      "slug": "menu-tiec-cuoi-tier-08",
+      "description": "Mức giá 5.000.000 đồng cho một bàn 10 khách. Ngoài phương án A và B, mức giá này có thêm phương án C dùng chung mức giá.",
+      "price": 5000000,
+      "guestsPerTable": 10,
+      "sortOrder": 40,
+      "venueScope": "Both",
+      "options": [
+        {
+          "code": "A",
+          "name": "Phương án A",
+          "sortOrder": 10,
+          "dishes": [
+            "Khai vị Nhật Bản",
+            "Súp tóc tiên hải sản",
+            "Gà quay + xôi chiên",
+            "Cá hồi nướng phomai kèm rau củ",
+            "Giò heo sốt nấm đông cô + bánh mỳ",
+            "Sữa chua"
+          ]
+        },
+        {
+          "code": "B",
+          "name": "Phương án B",
+          "sortOrder": 20,
+          "dishes": [
+            "Khai vị Tứ Quý",
+            "Súp rong biển hải sản",
+            "Tôm sú nướng sốt Wasabi",
+            "Sườn bò Mỹ sốt tiêu",
+            "Cá mú hấp",
+            "Gà hầm ngũ vị + bánh mỳ",
+            "Rau câu plan"
+          ]
+        },
+        {
+          "code": "C",
+          "name": "Phương án C",
+          "sortOrder": 30,
+          "dishes": [
+            "Khai vị HongKong",
+            "Súp hoành thánh",
+            "Bồ câu quay + bánh bao",
+            "Tôm sú hấp dừa",
+            "Cá Sapa nướng giấy bạc",
+            "Bò nấu kiểu Ý + bánh mỳ",
+            "Trái cây (02 loại)"
+          ]
+        }
+      ]
+    }
+  ],
+
+  "services": [],
+
+  "beverages": [],
+
+  "nuts": [],
+
+  "promotions": [],
+
+  "promotionTerms": [],
+
+  "depositTerms": [],
+
+  "priceNotes": [
+    {
+      "key": "price-note-provisional-validity",
+      "title": "Giá tham khảo",
+      "content": "Các mức giá trong bảng thực đơn là giá tham khảo tạm thời theo bảng giá gốc của nhà hàng. Hiệu lực của bảng giá gốc đã kết thúc vào tháng 8/2026. Vui lòng liên hệ nhà hàng để xác nhận mức giá áp dụng thực tế.",
+      "validUntil": "2026-08-31",
+      "vatNote": "Giá chưa bao gồm VAT (theo bảng giá gốc).",
+      "sortOrder": 10
+    },
+    {
+      "key": "price-note-beverage",
+      "title": "Giá nước uống",
+      "content": "Giá nước uống được tính theo đơn vị tại thời điểm tổ chức tiệc và chưa bao gồm VAT.",
+      "validUntil": "2026-08-31",
+      "vatNote": "Giá chưa bao gồm VAT (theo bảng giá gốc).",
+      "sortOrder": 20
+    }
+  ]
+}
