@@ -62,7 +62,11 @@
    invitation ornaments. */
 .venue-card__media {
     position: relative;
-    aspect-ratio: 4 / 3;
+    /* The photo owns the aspect ratio (see the `> img` rule below), so the
+       card height follows the photo and the cream border stays an even
+       frame on every card. A ratio on the padded box instead would be
+       diluted by the padding and the border, leaving the photo box at a
+       slightly different shape than the ratio that was asked for. */
     overflow: hidden;
     background-color: var(--color-card-cream);
     margin-bottom: var(--space-6);
@@ -77,8 +81,16 @@
 .venue-card__media > img {
     display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
+    /* One shared shape for both venue photos, so the two cards are a
+       matched pair. The two cover photos are not the same shape
+       (Golden Phoenix is wider than Phì Lũ), so a single ratio crops
+       them by different amounts — 3/2 sits closest to both and keeps
+       the cut even, instead of trimming the Golden Phoenix sign off
+       the sides of its frame. */
+    aspect-ratio: 3 / 2;
     object-fit: cover;
+    object-position: 50% 50%;
     transition: transform 720ms var(--ease-soft);
     /* Tiny drop on the photo so it reads as a print glued on the paper. */
     box-shadow: 0 2px 6px rgba(74, 58, 46, 0.12);
