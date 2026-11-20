@@ -16,14 +16,16 @@
    ===================================================================== */
 
 /* ---------- Homepage venue section (.venues) ----------
-   Ivory page surface — the same base background used by the other
-   homepage sections (hero content, booking CTA). The venue cards
-   keep their own champagne border, chamfered inner frame and corner
-   dots, so they still read as invitation cards on the page. */
+   Cream page surface — the same background as the homepage
+   introduction section above it, so the two bands read as one warm
+   paper surface and the venue cards sit on the same tone the visitor
+   has just been looking at. The cards keep their own champagne
+   border, chamfered inner frame and corner dots, so they still read
+   as invitation cards on the page. */
 .venues {
     padding-top: var(--space-12);
     padding-bottom: var(--space-12);
-    background-color: var(--color-ivory);
+    background-color: var(--color-cream);
 }
 
 .venues .section-head--center {
