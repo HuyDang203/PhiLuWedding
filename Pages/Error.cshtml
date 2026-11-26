@@ -6,6 +6,10 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+    @* The error page reuses the booking-page shell classes
+       (booking-page / booking-form / booking-trust), so it needs the
+       stylesheet that carries them. *@
+    <link rel="stylesheet" href="~/css/booking.css" asp-append-version="true" />
 }
 
 @* =====================================================================

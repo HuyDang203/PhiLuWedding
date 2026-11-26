@@ -31,10 +31,8 @@ PhiluWedding/
 ├── Pages/
 │   ├── Index.cshtml            # Homepage
 │   ├── Index.cshtml.cs
-│   ├── DatTiec.cshtml          # Booking consultation request form
+│   ├── DatTiec.cshtml          # Wedding consultation landing page
 │   ├── DatTiec.cshtml.cs
-│   ├── DatTiec/
-│   │   └── BookingFormInput.cs # View-model with DataAnnotations
 │   ├── TiecCuoi.cshtml         # Hall listing
 │   ├── TiecCuoi.cshtml.cs
 │   ├── TiecCuoi/
@@ -54,7 +52,8 @@ PhiluWedding/
 │   │   ├── site.css            # Design tokens, header, footer, typography
 │   │   ├── home.css            # Homepage section styles
 │   │   ├── halls.css           # Hall listing + detail styles
-│   │   └── booking.css         # Booking page + trust panel + success state
+│   │   ├── booking.css         # Error-page shell (booking-page / trust panel)
+│   │   └── consultation.css    # Wedding consultation landing page
 │   ├── js/
 │   │   └── site.js             # Mobile nav toggle, accessibility helpers
 │   └── images/                 # (Cloudinary-backed in production)
@@ -109,10 +108,9 @@ dotnet run
 The site will be available at the URL printed in the terminal
 (default `http://localhost:5124` — see `Properties/launchSettings.json`).
 
-If `ConnectionStrings__DefaultConnection` is set in the environment
-(or present in `appsettings.json`), the booking form will persist to
-PostgreSQL. Otherwise the public site still renders and the booking
-page shows a friendly "Hệ thống đang bận" notice.
+The `/dat-tiec` consultation page is free of database access: it renders the
+hotline, the Zalo chat link and the two venue addresses from configuration
+alone, so it always works — even when PostgreSQL is unavailable.
 
 ---
 

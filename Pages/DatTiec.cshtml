@@ -1,291 +1,405 @@
 @page "/dat-tiec"
 @model PhiluWedding.Pages.DatTiec.DatTiecModel
 @{
-    ViewData["Title"] = "Đặt lịch tư vấn tiệc cưới";
+    ViewData["Title"] = "Tư vấn tiệc cưới";
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/booking.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/consultation.css" asp-append-version="true" />
 }
 
 @* =====================================================================
-   PUBLIC WEDDING BOOKING REQUEST
-   A consultation request, not an automatic booking confirmation.
-     * Above the fold: headline + reassurance + form + alt CTA
-     * Trust panel: 3-step process next to the form
-     * Grouped fields: liên hệ / tiệc cưới / mong muốn thêm
-     * Polished success state, gated by TempData (cannot be opened by URL)
+   WEDDING CONSULTATION — NHÀ HÀNG PHÌ LŨ  (/dat-tiec)
+   A direct-contact landing page. There is no booking form on this
+   page any more: the visitor reaches the restaurant by phone or by
+   Zalo, both resolved from the shared Brand:Contact configuration.
+
+   Structure:
+     1. Hero — the promise + the two primary contact actions
+     2. Hall context — the hall the visitor came from, when there is one
+     3. Contact channels — hotline, Zalo, Facebook
+     4. Consultation process — four steps, from first contact to the day
+     5. What the consultation covers — the topics the adviser walks through
+     6. Venues — the two addresses, so the visitor can also visit
+     7. Closing CTA — the two contact actions once more
    ===================================================================== *@
 
-<section class="booking-page" aria-labelledby="booking-page-heading">
-    <div class="container booking-page__shell">
-        <header class="booking-page__head">
-            <p class="eyebrow">ĐẶT LỊCH TƯ VẤN</p>
-            <h1 id="booking-page-heading" class="booking-page__title">
-                <span>Cùng Phì Lũ chuẩn bị</span>
-                <span>một ngày cưới trọn vẹn</span>
+<section class="consult-hero" aria-labelledby="consult-hero-heading">
+    <div class="container consult-hero__grid">
+        <div class="consult-hero__content">
+            <p class="eyebrow consult-eyebrow">Tư vấn tiệc cưới</p>
+            <h1 id="consult-hero-heading" class="consult-hero__title">
+                <span>Một cuộc gọi,</span>
+                <span class="consult-hero__accent">một ngày cưới trọn vẹn</span>
             </h1>
-            <p class="booking-page__lede">
-                Vui lòng để lại thông tin liên hệ và một vài chi tiết về buổi tiệc.
-                Đội ngũ NHÀ HÀNG TIỆC CƯỚI PHÌ LŨ sẽ liên hệ lại để cùng bạn
-                trao đổi về không gian và phương án tiệc phù hợp — bạn chưa cần
-                quyết định ngay.
+            <p class="consult-hero__lede">
+                Đội ngũ NHÀ HÀNG TIỆC CƯỚI PHÌ LŨ luôn sẵn sàng trao đổi cùng bạn
+                về không gian, sức chứa, thực đơn và phương án tổ chức tiệc.
+                Chọn cách liên hệ thuận tiện nhất — bạn không cần chuẩn bị
+                bất cứ thông tin nào trước.
             </p>
-        </header>
-
-        <div class="booking-page__layout">
-            <div class="booking-page__main">
-                @if (Model.Submitted)
-                {
-                    <div class="booking-page__success" role="status" aria-live="polite">
-                        <p class="eyebrow">ĐÃ TIẾP NHẬN</p>
-                        <h2 class="booking-page__success-title">
-                            <span>Cảm ơn bạn đã gửi thông tin.</span>
-                        </h2>
-                        <p class="booking-page__success-body">
-                            Thông tin của bạn đã được tiếp nhận. Đội ngũ Phì Lũ sẽ liên hệ
-                            lại để tư vấn chi tiết về không gian và phương án tiệc phù hợp.
-                        </p>
-                        <p class="booking-page__success-note">
-                            Vui lòng giữ điện thoại hoặc email để nhận cuộc gọi / thư từ nhà hàng.
-                            Yêu cầu này là <strong>đăng ký tư vấn</strong>, chưa phải xác nhận đặt tiệc.
-                        </p>
-                        <div class="booking-page__success-actions">
-                            <a class="btn btn--primary" asp-page="/Index">
-                                VỀ TRANG CHỦ
-                                <span class="btn__arrow" aria-hidden="true">&rarr;</span>
-                            </a>
-                            <a class="link-arrow" asp-page="/TiecCuoi">
-                                KHÁM PHÁ SẢNH TIỆC
-                                <span aria-hidden="true">&rarr;</span>
-                            </a>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <form class="booking-form"
-                          method="post"
-                          novalidate
-                          aria-describedby="booking-form-intro">
-                        @Html.AntiForgeryToken()
-
-                        @* Hidden: the resolved PreferredHallId. The hidden field is
-                           always repopulated from a verified, published hall so the
-                           value can never be tampered with into persisting a fake id. *@
-                        @if (Model.PreferredHall is not null)
-                        {
-                            <input type="hidden" asp-for="Input.PreferredHallId" />
-                        }
-
-                        @if (Model.PreferredHall is not null)
-                        {
-                            <div class="booking-form__selected" role="note">
-                                <p class="booking-form__selected-label">Sảnh tiệc quan tâm</p>
-                                <p class="booking-form__selected-name">@Model.PreferredHall.Name</p>
-                                @if (!string.IsNullOrWhiteSpace(Model.PreferredHall.ShortDescription))
-                                {
-                                    <p class="booking-form__selected-desc">@Model.PreferredHall.ShortDescription</p>
-                                }
-                                <p class="booking-form__selected-note">
-                                    Bạn có thể thay đổi lựa chọn khi trao đổi cùng đội ngũ tư vấn.
-                                </p>
-                            </div>
-                        }
-
-                        <p id="booking-form-intro" class="booking-form__intro">
-                            Các trường có dấu <span aria-hidden="true">*</span>
-                            <span class="visually-hidden">bắt buộc</span> là bắt buộc.
-                        </p>
-
-                        @if (!Model.DatabaseAvailable)
-                        {
-                            <div class="booking-form__notice" role="alert">
-                                Hệ thống đang bận. Vui lòng thử lại sau ít phút hoặc liên hệ
-                                trực tiếp với nhà hàng để được hỗ trợ.
-                            </div>
-                        }
-
-                        <div asp-validation-summary="ModelOnly" class="booking-form__summary" role="alert"></div>
-
-                        <div class="booking-form__groups">
-                            @* ---------- Group: Thông tin liên hệ ---------- *@
-                            <fieldset class="booking-form__group">
-                                <legend class="booking-form__legend">Thông tin liên hệ</legend>
-                                <p class="booking-form__legend-hint">
-                                    Để đội ngũ Phì Lũ có thể liên hệ tư vấn chi tiết cho bạn.
-                                </p>
-                                <div class="booking-form__grid">
-                                    <div class="booking-form__field booking-form__field--full">
-                                        <label asp-for="Input.CustomerName"></label>
-                                        <input asp-for="Input.CustomerName"
-                                               autocomplete="name"
-                                               maxlength="200"
-                                               aria-required="true" />
-                                        <span asp-validation-for="Input.CustomerName" class="booking-form__error"></span>
-                                    </div>
-
-                                    <div class="booking-form__field">
-                                        <label asp-for="Input.PhoneNumber"></label>
-                                        <input asp-for="Input.PhoneNumber"
-                                               type="tel"
-                                               inputmode="tel"
-                                               autocomplete="tel"
-                                               maxlength="30"
-                                               aria-required="true"
-                                               aria-describedby="hint-phone" />
-                                        <small id="hint-phone" class="booking-form__hint">
-                                            Số điện thoại để Phì Lũ tiện liên hệ tư vấn.
-                                        </small>
-                                        <span asp-validation-for="Input.PhoneNumber" class="booking-form__error"></span>
-                                    </div>
-
-                                    <div class="booking-form__field">
-                                        <label asp-for="Input.Email"></label>
-                                        <input asp-for="Input.Email"
-                                               type="email"
-                                               inputmode="email"
-                                               autocomplete="email"
-                                               maxlength="200" />
-                                        <small class="booking-form__hint">Không bắt buộc — chỉ dùng nếu bạn muốn nhận tư vấn qua email.</small>
-                                        <span asp-validation-for="Input.Email" class="booking-form__error"></span>
-                                    </div>
-                                </div>
-                            </fieldset>
-
-                            @* ---------- Group: Thông tin tiệc cưới ---------- *@
-                            <fieldset class="booking-form__group">
-                                <legend class="booking-form__legend">Thông tin tiệc cưới</legend>
-                                <p class="booking-form__legend-hint">
-                                    Bạn có thể ghi nhận dự kiến — chưa cần là ngày chính thức.
-                                </p>
-                                <div class="booking-form__grid">
-                                    <div class="booking-form__field">
-                                        <label asp-for="Input.EventDate"></label>
-                                        <input asp-for="Input.EventDate"
-                                               type="date"
-                                               min="@Model.MinEventDate.ToString("yyyy-MM-dd")"
-                                               aria-required="true"
-                                               aria-describedby="hint-eventdate" />
-                                        <small id="hint-eventdate" class="booking-form__hint">
-                                            Bạn có thể chọn ngày dự kiến, chưa cần là ngày chính thức.
-                                        </small>
-                                        <span asp-validation-for="Input.EventDate" class="booking-form__error"></span>
-                                    </div>
-
-                                    <div class="booking-form__field">
-                                        <label asp-for="Input.EventType"></label>
-                                        <select asp-for="Input.EventType"
-                                                asp-items="@(new SelectList(Model.EventTypeOptions))"
-                                                aria-required="true">
-                                            <option value="">— Chọn loại sự kiện —</option>
-                                        </select>
-                                        <span asp-validation-for="Input.EventType" class="booking-form__error"></span>
-                                    </div>
-
-                                    <div class="booking-form__field booking-form__field--full">
-                                        <label asp-for="Input.EstimatedGuestCount"></label>
-                                        <input asp-for="Input.EstimatedGuestCount"
-                                               type="number"
-                                               inputmode="numeric"
-                                               min="1"
-                                               max="5000"
-                                               step="1"
-                                               aria-required="true"
-                                               aria-describedby="hint-guests" />
-                                        <small id="hint-guests" class="booking-form__hint">
-                                            Nếu chưa xác định, hãy ghi chú để đội ngũ tư vấn thêm.
-                                        </small>
-                                        <span asp-validation-for="Input.EstimatedGuestCount" class="booking-form__error"></span>
-                                    </div>
-                                </div>
-                            </fieldset>
-
-                            @* ---------- Group: Mong muốn thêm ---------- *@
-                            <fieldset class="booking-form__group">
-                                <legend class="booking-form__legend">Mong muốn thêm</legend>
-                                <p class="booking-form__legend-hint">
-                                    Chia sẻ thêm để buổi tư vấn được chuẩn bị chu đáo hơn.
-                                </p>
-                                <div class="booking-form__grid">
-                                    <div class="booking-form__field booking-form__field--full">
-                                        <label asp-for="Input.Note"></label>
-                                        <textarea asp-for="Input.Note"
-                                                  rows="5"
-                                                  maxlength="2000"
-                                                  placeholder="Yêu cầu đặc biệt, sở thích, hoặc câu hỏi dành cho nhà hàng."></textarea>
-                                        <span asp-validation-for="Input.Note" class="booking-form__error"></span>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </div>
-
-                        <div class="booking-form__actions">
-                            <button type="submit" class="btn btn--primary">
-                                GỬI YÊU CẦU TƯ VẤN
-                                <span class="btn__arrow" aria-hidden="true">&rarr;</span>
-                            </button>
-                            <a class="link-arrow" asp-page="/TiecCuoi">
-                                XEM SẢNH TIỆC TRƯỚC
-                                <span aria-hidden="true">&rarr;</span>
-                            </a>
-                        </div>
-
-                        <p class="booking-form__footnote">
-                            Gửi yêu cầu là bước đầu tiên để trao đổi cùng đội ngũ Phì Lũ.
-                            Đây <strong>không phải xác nhận đặt tiệc</strong>.
-                        </p>
-                    </form>
-                }
+            <div class="consult-hero__actions">
+                <a class="btn btn--primary consult-cta consult-cta--call"
+                   href="@Model.Contact.HotlineTel"
+                   aria-label="@($"Gọi hotline {Model.Contact.HotlinePhone} của Nhà hàng tiệc cưới Phì Lũ")">
+                    <svg class="consult-cta__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2a.996.996 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.57c.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                    </svg>
+                    GỌI HOTLINE
+                    <span class="consult-cta__number">@Model.Contact.HotlinePhone</span>
+                </a>
+                <a class="btn btn--outline consult-cta consult-cta--zalo"
+                   href="@Model.Contact.ZaloUrl"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="Mở cuộc trò chuyện Zalo với Nhà hàng tiệc cưới Phì Lũ trong cửa sổ mới">
+                    <img class="consult-cta__icon consult-cta__icon--zalo"
+                         src="~/images/logo/logoZalo.jpg"
+                         alt=""
+                         asp-append-version="true"
+                         width="866"
+                         height="650" />
+                    CHAT QUA ZALO
+                    <span class="consult-cta__number">@Model.Contact.ZaloPhone</span>
+                </a>
             </div>
-
-            @* ---------- Trust / process panel ---------- *@
-            <aside class="booking-page__trust" aria-labelledby="booking-trust-heading">
-                <div class="booking-trust">
-                    <p class="eyebrow">QUY TRÌNH TƯ VẤN</p>
-                    <h2 id="booking-trust-heading" class="booking-trust__title">
-                        <span>Ba bước đơn giản</span>
-                        <span>để bạn an tâm</span>
-                    </h2>
-                    <ol class="booking-trust__list" role="list">
-                        <li class="booking-trust__step">
-                            <span class="booking-trust__num" aria-hidden="true">01</span>
-                            <div>
-                                <p class="booking-trust__step-title">Bạn gửi thông tin dự kiến.</p>
-                                <p class="booking-trust__step-body">
-                                    Chỉ cần những thông tin cơ bản để đội ngũ có thể liên hệ.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="booking-trust__step">
-                            <span class="booking-trust__num" aria-hidden="true">02</span>
-                            <div>
-                                <p class="booking-trust__step-title">Đội ngũ Phì Lũ liên hệ trao đổi.</p>
-                                <p class="booking-trust__step-body">
-                                    Nhà hàng sẽ gọi điện hoặc phản hồi email để cùng bạn tìm hiểu nhu cầu.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="booking-trust__step">
-                            <span class="booking-trust__num" aria-hidden="true">03</span>
-                            <div>
-                                <p class="booking-trust__step-title">Hai bên thống nhất không gian và phương án tiệc.</p>
-                                <p class="booking-trust__step-body">
-                                    Sau khi trao đổi, bạn mới quyết định có đặt tiệc hay không.
-                                </p>
-                            </div>
-                        </li>
-                    </ol>
-                    <p class="booking-trust__note">
-                        Gửi yêu cầu chưa phải xác nhận đặt tiệc — bạn có thể cung cấp
-                        thông tin dự kiến và chỉnh sửa lại sau cùng đội ngũ tư vấn.
-                    </p>
+            <p class="consult-hero__note">
+                Hotline tư vấn tiệc cưới phục vụ cả ngày — bạn có thể gọi bất cứ
+                lúc nào thuận tiện.
+            </p>
+        </div>
+        <div class="consult-hero__media">
+            <figure class="consult-hero__figure">
+                <div class="consult-hero__plate">
+                    <img class="consult-hero__image"
+                         src="~/images/home/dattiec.jpg"
+                         alt="Ảnh cặp đôi trong không gian tiệc cưới Phì Lũ, nền sáng và bố cục trang trọng dành cho lời tư vấn tổ chức tiệc cưới"
+                         loading="eager"
+                         fetchpriority="high"
+                         asp-append-version="true" />
                 </div>
-            </aside>
+            </figure>
         </div>
     </div>
 </section>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+@* ---------- HALL CONTEXT ---------- *@
+@if (Model.PreferredHall is not null)
+{
+    <section class="consult-context" aria-labelledby="consult-context-heading">
+        <div class="container">
+            <div class="consult-context__frame" role="note">
+                <div class="consult-context__body">
+                    <p class="consult-context__label">Sảnh tiệc bạn đang quan tâm</p>
+                    <h2 id="consult-context-heading" class="consult-context__name">
+                        @Model.PreferredHall.Name
+                    </h2>
+                    @if (!string.IsNullOrWhiteSpace(Model.PreferredHall.ShortDescription))
+                    {
+                        <p class="consult-context__desc">@Model.PreferredHall.ShortDescription</p>
+                    }
+                    <p class="consult-context__note">
+                        Nhắn Zalo hoặc gọi hotline, đội ngũ Phì Lũ sẽ tư vấn chi tiết
+                        về sảnh này cùng bạn.
+                    </p>
+                </div>
+                <div class="consult-context__actions">
+                    <a class="btn btn--primary consult-cta consult-cta--call"
+                       href="@Model.Contact.HotlineTel"
+                       aria-label="@($"Gọi hotline {Model.Contact.HotlinePhone}")">
+                        <svg class="consult-cta__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2a.996.996 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.57c.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                        </svg>
+                        GỌI NGAY
+                    </a>
+                    <a class="btn btn--outline consult-cta consult-cta--zalo"
+                       href="@Model.Contact.ZaloUrl"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="Mở cuộc trò chuyện Zalo trong cửa sổ mới">
+                        <img class="consult-cta__icon consult-cta__icon--zalo"
+                             src="~/images/logo/logoZalo.jpg"
+                             alt=""
+                             asp-append-version="true"
+                             width="866"
+                             height="650" />
+                        NHẮN ZALO
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 }
+
+@* ---------- CONTACT CHANNELS ---------- *@
+<section class="consult-channels" id="lien-he-truc-tuyen" aria-labelledby="consult-channels-heading">
+    <div class="container">
+        <header class="section-head section-head--center consult-channels__head">
+            <p class="eyebrow consult-eyebrow">Liên hệ trực tiếp</p>
+            <h2 id="consult-channels-heading" class="section-title">
+                <span>Chọn cách nhanh nhất</span>
+                <span>để bắt đầu</span>
+            </h2>
+            <p class="consult-channels__lede">
+                Bạn không cần điền bất kỳ biểu mẫu nào. Gọi điện hoặc nhắn tin —
+                đội ngũ Phì Lũ sẽ phản hồi và cùng bạn trao đổi từ đầu.
+            </p>
+        </header>
+
+        <div class="consult-channels__grid">
+            <div class="consult-channel consult-channel--hotline">
+                <p class="consult-channel__label">Hotline tư vấn tiệc cưới</p>
+                <a class="consult-channel__hotline"
+                   href="@Model.Contact.HotlineTel"
+                   aria-label="@($"Gọi hotline {Model.Contact.HotlinePhone}")">
+                    @Model.Contact.HotlinePhone
+                </a>
+                <p class="consult-channel__body">
+                    Gọi trực tiếp để được tư vấn sớm nhất về sức chứa sảnh,
+                    thực đơn và phương án tổ chức tiệc.
+                </p>
+                <a class="consult-link consult-link--invert"
+                   href="@Model.Contact.HotlineTel"
+                   aria-label="@($"Gọi hotline {Model.Contact.HotlinePhone}")">
+                    Nhấn để gọi ngay
+                    <span aria-hidden="true">&rarr;</span>
+                </a>
+            </div>
+
+            <div class="consult-channel">
+                <p class="consult-channel__label">Zalo</p>
+                <a class="consult-link"
+                   href="@Model.Contact.ZaloUrl"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="Mở cuộc trò chuyện Zalo với Nhà hàng tiệc cưới Phì Lũ trong cửa sổ mới">
+                    Chat ngay
+                    <span aria-hidden="true">&rarr;</span>
+                </a>
+                <p class="consult-channel__body">
+                    Nhắn tin nhanh để gửi thông tin dự kiến của bạn, hoặc hỏi
+                    thông tin về từng sảnh tiệc.
+                </p>
+            </div>
+
+            <div class="consult-channel">
+                <p class="consult-channel__label">Facebook</p>
+                <a class="consult-link"
+                   href="@Model.Contact.FacebookUrl"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="Mở trang Facebook của Nhà hàng tiệc cưới Phì Lũ trong cửa sổ mới">
+                    Theo dõi fanpage
+                    <span aria-hidden="true">&rarr;</span>
+                </a>
+                <p class="consult-channel__body">
+                    Xem hình ảnh không gian, thực đơn mới và các chương trình
+                    ưu đãi đang diễn ra tại Phì Lũ.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* ---------- CONSULTATION PROCESS ---------- *@
+<section class="consult-process" id="quy-trinh-tu-van" aria-labelledby="consult-process-heading">
+    <div class="container">
+        <header class="section-head section-head--center consult-process__head">
+            <p class="eyebrow consult-eyebrow">Quy trình tư vấn</p>
+            <h2 id="consult-process-heading" class="section-title">
+                <span>Bốn bước đơn giản</span>
+                <span>từ lần gọi đầu tiên</span>
+            </h2>
+            <p class="consult-process__lede">
+                Mỗi bước đều là một cuộc trao đổi trực tiếp với đội ngũ Phì Lũ —
+                không có mẫu đơn dài, không có cam kết vội vàng.
+            </p>
+        </header>
+
+        <ol class="consult-process__list" role="list">
+            <li class="consult-step">
+                <span class="consult-step__num" aria-hidden="true">01</span>
+                <h3 class="consult-step__title">Bạn liên hệ</h3>
+                <p class="consult-step__body">
+                    Gọi hotline hoặc nhắn Zalo — kể cho chúng tôi biết bạn
+                    dự định tổ chức tiệc vào khoảng thời gian nào.
+                </p>
+            </li>
+            <li class="consult-step">
+                <span class="consult-step__num" aria-hidden="true">02</span>
+                <h3 class="consult-step__title">Chúng tôi tìm hiểu nhu cầu</h3>
+                <p class="consult-step__body">
+                    Số khách dự kiến, phong cách mong muốn, ngân sách và những
+                    điều riêng bạn muốn có trong ngày cưới.
+                </p>
+            </li>
+            <li class="consult-step">
+                <span class="consult-step__num" aria-hidden="true">03</span>
+                <h3 class="consult-step__title">Đề xuất sảnh và phương án</h3>
+                <p class="consult-step__body">
+                    Chúng tôi giới thiệu sảnh phù hợp cùng mức giá và các
+                    phương án món ăn tương ứng để bạn cân nhắc.
+                </p>
+            </li>
+            <li class="consult-step">
+                <span class="consult-step__num" aria-hidden="true">04</span>
+                <h3 class="consult-step__title">Tham quan và hoàn thiện</h3>
+                <p class="consult-step__body">
+                    Bạn đến xem sảnh trực tiếp nếu muốn, rồi cùng chúng tôi
+                    chốt lại phương án cuối cùng.
+                </p>
+            </li>
+        </ol>
+
+        <p class="consult-process__note">
+            Trao đổi tư vấn chưa phải xác nhận đặt tiệc — bạn luôn có thể cân nhắc
+            lại và điều chỉnh phương án cùng đội ngũ tư vấn.
+        </p>
+    </div>
+</section>
+
+@* ---------- WHAT THE CONSULTATION COVERS ---------- *@
+<section class="consult-topics" id="pham-vi-tu-van" aria-labelledby="consult-topics-heading">
+    <div class="container">
+        <header class="section-head section-head--center consult-topics__head">
+            <p class="eyebrow consult-eyebrow">Phạm vi tư vấn</p>
+            <h2 id="consult-topics-heading" class="section-title">
+                <span>Chúng tôi cùng bạn</span>
+                <span>trao đổi về những điều này</span>
+            </h2>
+        </header>
+
+        <ul class="consult-topics__grid" role="list">
+            <li class="consult-topic">
+                <h3 class="consult-topic__title">Không gian và sức chứa</h3>
+                <p class="consult-topic__body">
+                    Sảnh phù hợp với số khách dự kiến, cách bố trí tiệc và
+                    những điểm khác biệt giữa hai nhà hàng.
+                </p>
+            </li>
+            <li class="consult-topic">
+                <h3 class="consult-topic__title">Thực đơn và phương án</h3>
+                <p class="consult-topic__body">
+                    Các mức giá theo bàn và những phương án món ăn A, B, C —
+                    cùng những điều chỉnh theo yêu cầu riêng của bạn.
+                </p>
+            </li>
+            <li class="consult-topic">
+                <h3 class="consult-topic__title">Ngân sách và ưu đãi</h3>
+                <p class="consult-topic__body">
+                    Mức giá thực tế áp dụng và các chương trình ưu đãi đang
+                    diễn ra tại Phì Lũ tại thời điểm tổ chức tiệc.
+                </p>
+            </li>
+            <li class="consult-topic">
+                <h3 class="consult-topic__title">Ngày cưới của bạn</h3>
+                <p class="consult-topic__body">
+                    Lịch trình trong ngày, cách bài trí sảnh và những yêu cầu
+                    riêng mà bạn muốn nhà hàng chuẩn bị.
+                </p>
+            </li>
+        </ul>
+    </div>
+</section>
+
+@* ---------- VENUES ---------- *@
+<section class="consult-venues" id="dia-chi-nhan-hang" aria-labelledby="consult-venues-heading">
+    <div class="container">
+        <header class="section-head section-head--center consult-venues__head">
+            <p class="eyebrow consult-eyebrow">Hai không gian tiệc cưới</p>
+            <h2 id="consult-venues-heading" class="section-title">
+                <span>Đến tham quan</span>
+                <span>trực tiếp nhà hàng</span>
+            </h2>
+            <p class="consult-venues__lede">
+                Cả hai nhà hàng nằm trên cùng trục đường 2 Tháng 9, quận Hòa Cường —
+                Đà Nẵng. Bạn có thể đến xem sảnh bất cứ lúc nào, hoặc xem trước
+                trên bản đồ.
+            </p>
+        </header>
+
+        <ul class="consult-venues__grid" role="list">
+            @foreach (var venue in Model.Venues)
+            {
+                <li class="consult-venue">
+                    <div class="consult-venue__media">
+                        <img src="@venue.ImageUrl"
+                             alt="@venue.ImageAlt"
+                             loading="lazy"
+                             asp-append-version="true" />
+                    </div>
+                    <div class="consult-venue__body">
+                        <p class="consult-venue__meta">@venue.Role</p>
+                        <h3 class="consult-venue__title">@venue.Name</h3>
+                        <address class="consult-venue__address">
+                            <span class="consult-venue__address-label">Địa chỉ</span>
+                            <span class="consult-venue__address-text">@venue.Address</span>
+                        </address>
+                        <div class="consult-venue__actions">
+                            <a class="btn btn--outline consult-venue__btn"
+                               href="@venue.MapDirectionsUrl"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               aria-label="@($"Chỉ đường đến {venue.Name} trên Google Maps")">
+                                Chỉ đường
+                                <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+                            </a>
+                            <a class="consult-link"
+                               href="@venue.DetailsUrl"
+                               aria-label="@($"Xem các sảnh tiệc của {venue.Name}")">
+                                Xem sảnh tiệc
+                                <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</section>
+
+@* ---------- CLOSING CTA ---------- *@
+<section class="consult-closing" aria-labelledby="consult-closing-heading">
+    <div class="container consult-closing__inner">
+        <div class="consult-closing__frame">
+            <p class="eyebrow consult-eyebrow">Ngày trọng đại</p>
+            <h2 id="consult-closing-heading" class="section-title">
+                <span>Để Phì Lũ chuẩn bị</span>
+                <span>trọn vẹn cùng bạn</span>
+            </h2>
+            <p class="consult-closing__lede">
+                Một cuộc gọi là đủ để bắt đầu. Gọi hotline hoặc nhắn Zalo —
+                đội ngũ Phì Lũ sẽ cùng bạn hoàn thiện phương án tiệc.
+            </p>
+            <div class="consult-closing__actions">
+                <a class="btn btn--primary consult-cta consult-cta--call consult-cta--light"
+                   href="@Model.Contact.HotlineTel"
+                   aria-label="@($"Gọi hotline {Model.Contact.HotlinePhone}")">
+                    <svg class="consult-cta__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2a.996.996 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.57c.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                    </svg>
+                    GỌI HOTLINE
+                    <span class="consult-cta__number">@Model.Contact.HotlinePhone</span>
+                </a>
+                <a class="btn btn--outline consult-cta consult-cta--zalo"
+                   href="@Model.Contact.ZaloUrl"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="Mở cuộc trò chuyện Zalo với Nhà hàng tiệc cưới Phì Lũ trong cửa sổ mới">
+                    <img class="consult-cta__icon consult-cta__icon--zalo"
+                         src="~/images/logo/logoZalo.jpg"
+                         alt=""
+                         asp-append-version="true"
+                         width="866"
+                         height="650" />
+                    CHAT QUA ZALO
+                    <span class="consult-cta__number">@Model.Contact.ZaloPhone</span>
+                </a>
+            </div>
+            <p class="consult-closing__note">
+                Trao đổi tư vấn miễn phí và không ràng buộc — bạn luôn có thể
+                quay lại và xem xét thêm.
+            </p>
+        </div>
+    </div>
+</section>

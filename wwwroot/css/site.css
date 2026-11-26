@@ -346,7 +346,7 @@ body.is-keyboard :focus:not(:focus-visible) {
 
 /* ---------- Global utilities ---------- */
 /* Screen-reader-only text. Kept in sync with the identical rule in
-   booking.css so the booking page keeps working if it is ever loaded
+   booking.css so the error page keeps working if it is ever loaded
    on its own. */
 .visually-hidden {
     position: absolute;

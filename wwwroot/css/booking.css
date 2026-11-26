@@ -1,11 +1,15 @@
 /* =====================================================================
-   BOOKING PAGE — NHÀ HÀNG PHÌ LŨ
-   Scoped to the public /dat-tiec Razor Page. All classes are prefixed
-   with `booking-page` or `booking-form` so they never collide with
-   `site.css` / `home.css` / `halls.css`.
+   BOOKING SHELL — NHÀ HÀNG PHÌ LŨ
+   The shared page shell of the consultation flow: `booking-page`,
+   `booking-form` and `booking-trust`. The /dat-tiec consultation page
+   now has its own stylesheet (consultation.css); this file carries the
+   shell that the production error page reuses, so the two can never
+   drift apart. All classes are prefixed with `booking-page`,
+   `booking-form` or `booking-trust` so they never collide with
+   `site.css` / `home.css` / `halls.css` / `contact.css`.
 
-   Phase 08 layout:
-     - Editorial split: form on the left, trust panel on the right
+   Layout:
+     - Editorial split: content on the left, trust panel on the right
      - Grouped fieldsets with legend + helper hint
      - Per-field helper text under each input
      - Hall preselection card above the form

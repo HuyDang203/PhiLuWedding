@@ -167,15 +167,6 @@
                                     </div>
                                 }
 
-                                <a class="menus-tier__cta"
-                                   asp-page="/ThucDon/PhiLu"
-                                   asp-route-muc="@tier.Slug">
-                                    Xem mức giá này
-                                    <span aria-hidden="true">&rarr;</span>
-                                    @* The tier name is read by the screen reader so the
-                                       four identical links stay distinguishable. *@
-                                    <span class="visually-hidden"> — @tier.Name</span>
-                                </a>
                             </article>
                         </li>
                     }

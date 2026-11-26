@@ -915,8 +915,13 @@
 }
 
 /* ---------- Options of a tier ---------- */
+/* The options block is pushed to the bottom of the card, so the option
+   rows of the four tiers line up on one horizontal line even when a
+   tier offers three options and another only two. The call-to-action
+   button that used to close the card is gone — the option buttons are
+   the actions of the card now. */
 .menus-tier__options {
-    margin-top: var(--space-5);
+    margin-top: auto;
     padding-top: var(--space-4);
     border-top: 1px solid var(--color-line);
 }
@@ -996,41 +1001,6 @@
     object-fit: cover;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-sm);
-}
-
-/* ---------- Tier call to action ---------- */
-.menus-tier__cta {
-    margin-top: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    align-self: flex-start;
-    min-height: 44px;
-    padding-top: var(--space-4);
-    font-size: var(--fs-body-sm);
-    font-weight: var(--font-weight-semibold);
-    letter-spacing: var(--ls-caption);
-    text-transform: uppercase;
-    color: var(--color-brown);
-    border-bottom: 1px solid var(--color-border);
-    transition: color var(--dur-base) var(--ease-soft),
-                border-bottom-color var(--dur-base) var(--ease-soft);
-}
-
-
-.menus-tier__cta:hover,
-.menus-tier__cta:focus-visible {
-    color: var(--color-ink);
-    border-bottom-color: var(--color-ink);
-}
-
-.menus-tier__cta span {
-    transition: transform var(--dur-base) var(--ease-soft);
-}
-
-.menus-tier__cta:hover span,
-.menus-tier__cta:focus-visible span {
-    transform: translateX(4px);
 }
 
 /* ---------- Venue price sheets ---------- */

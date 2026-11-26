@@ -1,0 +1,50 @@
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5198
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: D:\PhiLuWedding
+info: PhiluWedding.Pages.DatTiec.DatTiecModel[0]
+      Consultation page requested.
+info: PhiluWedding.Pages.DatTiec.DatTiecModel[0]
+      Consultation page requested.
+info: PhiluWedding.Pages.DatTiec.DatTiecModel[0]
+      Consultation page requested.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (90ms) [Parameters=[@__TierKeys_0='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.created_at, m.description, m.guests_per_table, m.is_published, m.key, m.name, m.price, m.slug, m.sort_order, m.updated_at, m.venue_scope
+      FROM menu_tiers AS m
+      WHERE m.is_published AND m.key = ANY (@__TierKeys_0)
+      ORDER BY m.sort_order, m.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT m.id
+      FROM menu_sets AS m
+      WHERE m.slug = 'menu-tiec-cuoi'
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT m.menu_set_id AS "MenuSetId", count(*)::int AS "Count"
+      FROM menu_combos AS m
+      WHERE m.is_published AND ((m.menu_tier_id = 2 AND (m.option_code = 'A' OR m.option_code = 'B')) OR (m.menu_tier_id = 4 AND (m.option_code = 'A' OR m.option_code = 'B')) OR (m.menu_tier_id = 7 AND (m.option_code = 'A' OR m.option_code = 'B')) OR (m.menu_tier_id = 8 AND (m.option_code = 'A' OR m.option_code = 'B' OR m.option_code = 'C')) OR (m.menu_tier_id IS NULL AND m.menu_set_id <> 1))
+      GROUP BY m.menu_set_id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.created_at, m.description, m.is_published, m.name, m.short_description, m.slug, m.sort_order, m.updated_at, m.venue_scope
+      FROM menu_sets AS m
+      WHERE m.is_published
+      ORDER BY m.sort_order, m.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[@__tierIds_0='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.menu_tier_id, m.option_code, m.option_sort_order, m.name, (
+          SELECT count(*)::int
+          FROM menu_combo_dishes AS m0
+          INNER JOIN dishes AS d ON m0.dish_id = d.id
+          WHERE m.id = m0.menu_combo_id AND d.is_published)
+      FROM menu_combos AS m
+      WHERE m.is_published AND m.menu_tier_id IS NOT NULL AND m.menu_tier_id = ANY (@__tierIds_0) AND ((m.menu_tier_id = 2 AND (m.option_code = 'A' OR m.option_code = 'B')) OR (m.menu_tier_id = 4 AND (m.option_code = 'A' OR m.option_code = 'B')) OR (m.menu_tier_id = 7 AND (m.option_code = 'A' OR m.option_code = 'B')) OR (m.menu_tier_id = 8 AND (m.option_code = 'A' OR m.option_code = 'B' OR m.option_code = 'C')))
+      ORDER BY m.menu_tier_id, m.option_sort_order, m.id
+info: PhiluWedding.Pages.DatTiec.DatTiecModel[0]
+      Consultation page requested.

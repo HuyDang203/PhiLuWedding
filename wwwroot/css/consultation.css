@@ -1,0 +1,830 @@
+/* =====================================================================
+   CONSULTATION PAGE — NHÀ HÀNG PHÌ LŨ  (/dat-tiec)
+   Scoped to the public consultation landing page. All classes are
+   prefixed with `consult-` so they never collide with site.css /
+   home.css / venues.css / halls.css / contact.css / menus.css.
+
+   Visual direction — the direct-contact concierge:
+     * A quiet ivory / champagne / deep-brown palette, the same one the
+       contact page uses. The page is a concierge desk, not a form.
+     * The photograph is treated as editorial: full bleed inside its
+       frame with a single champagne rule offset behind it.
+     * The two calls to action — call the hotline and chat on Zalo —
+       are the loudest elements on the page, because they are the two
+       things the visitor is here to do.
+     * No italic anywhere; the accent is carried by spacing, hairlines
+       and the deep-brown panel of the hotline channel.
+
+   Everything on the page comes from the shared design tokens in
+   site.css, so the page speaks the same type vocabulary as the rest
+   of the site.
+   ===================================================================== */
+
+/* ---------- Page-level typography ---------- */
+.consult-eyebrow {
+    /* Sentence case, open tracking: the eyebrow marks a section, it
+       does not stamp it. */
+    text-transform: none;
+    letter-spacing: var(--ls-body);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+}
+
+/* A link with an underline that follows the words — used for the
+   secondary actions of the page (Zalo, Facebook, "Xem sảnh tiệc"). */
+.consult-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    /* Keeps the underline attached to the words while still giving
+       the link a ~44px tap target. */
+    padding: 0.625rem 0;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--ls-body);
+    line-height: var(--lh-snug);
+    text-transform: none;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+    transition: border-color var(--dur-base) var(--ease-soft),
+                color var(--dur-base) var(--ease-soft);
+}
+
+.consult-link span {
+    transition: transform var(--dur-base) var(--ease-soft);
+}
+
+.consult-link:hover,
+.consult-link:focus-visible {
+    color: var(--color-ink);
+    border-bottom-color: var(--color-champagne);
+}
+
+.consult-link:hover span,
+.consult-link:focus-visible span {
+    transform: translateX(5px);
+}
+
+/* The inverted variant sits on the deep-brown hotline panel. */
+.consult-link--invert {
+    color: var(--color-paper);
+    border-bottom-color: rgba(248, 246, 240, 0.32);
+}
+
+.consult-link--invert:hover,
+.consult-link--invert:focus-visible {
+    color: var(--color-champagne);
+    border-bottom-color: var(--color-champagne);
+}
+
+/* ---------- The primary call to action ---------- */
+/* The call-to-action buttons carry their label, their icon and the
+   number, so the visitor never has to open a page to find out how to
+   reach the restaurant. */
+.consult-cta {
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+
+.consult-cta__icon {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+.consult-cta__icon--zalo {
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+}
+
+/* The number sits inside the button in the display serif, so the
+   button itself carries the two pieces of information the visitor
+   needs: what to do and where to reach. */
+.consult-cta__number {
+    font-family: var(--font-serif);
+    font-size: var(--fs-body);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--ls-serif);
+    font-variant-numeric: lining-nums tabular-nums;
+    opacity: 0.9;
+}
+
+.consult-cta--light {
+    background-color: var(--color-paper);
+    color: var(--color-brown);
+    border-color: var(--color-paper);
+}
+
+.consult-cta--light:hover,
+.consult-cta--light:focus-visible {
+    background-color: var(--color-cream);
+    border-color: var(--color-cream);
+    color: var(--color-ink);
+}
+
+/* ---------- Hero ---------- */
+.consult-hero {
+    position: relative;
+    background-color: var(--color-ivory);
+    overflow: hidden;
+}
+
+.consult-hero__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-9);
+    align-items: center;
+    padding-top: var(--space-10);
+    padding-bottom: var(--space-11);
+}
+
+/* The copy column keeps a narrow measure so the headline breaks into
+   calm, editorial lines instead of a slab of text. */
+.consult-hero__content {
+    max-width: 32rem;
+}
+
+.consult-hero__title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 1.6rem + 3.6vw, 4rem);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    color: var(--color-text-strong);
+    text-wrap: balance;
+}
+
+/* The single restrained emphasis of the hero: the promise, set on the
+   same baseline as the rest of the headline. No italic, no underline
+   gimmick � a champagne hairline carries it. */
+.consult-hero__accent {
+    color: var(--color-brown);
+    font-weight: var(--font-weight-semibold);
+    border-bottom: 1px solid var(--color-champagne);
+    padding-bottom: 0.08em;
+}
+
+.consult-hero__lede {
+    margin-top: var(--space-6);
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-muted);
+    line-height: var(--lh-relaxed);
+    max-width: 46ch;
+}
+
+.consult-hero__actions {
+    margin-top: var(--space-8);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-5);
+}
+
+.consult-hero__actions .btn,
+.consult-hero__actions .consult-link {
+    margin-top: 0;
+}
+
+.consult-hero__note {
+    margin-top: var(--space-5);
+    font-size: var(--fs-body-sm);
+    color: var(--color-text-muted);
+    line-height: var(--lh-body);
+}
+
+/* --- Hero photograph ---
+   The whole picture is shown: the plate matches the 1:1 source and the
+   image is fitted, never cropped. There is no inner rule and no
+   champagne frame around it. */
+.consult-hero__figure {
+    position: relative;
+    margin: 0;
+}
+
+.consult-hero__plate {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: var(--color-cream);
+    box-shadow: 0 22px 60px rgba(44, 36, 28, 0.14);
+}
+
+.consult-hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: 50% 50%;
+    display: block;
+}
+
+@media (min-width: 900px) {
+    .consult-hero__grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+        gap: var(--space-10);
+        padding-top: var(--space-12);
+        padding-bottom: var(--space-12);
+    }
+}
+
+@media (max-width: 599.98px) {
+    .consult-hero__plate {
+        aspect-ratio: 1 / 1;
+    }
+
+    /* On a phone the two calls to action become full-width blocks, so
+       the tap target is as large as the whole width of the screen. */
+    .consult-hero__actions .btn {
+        flex: 1 1 100%;
+    }
+}
+
+/* ---------- Hall context ---------- */
+/* The panel that appears when the visitor follows a "?hallId=" link
+   from a hall page. It is context, not a form: the hall name and a
+   direct call to action, nothing to fill in. */
+.consult-context {
+    padding-top: var(--space-9);
+    background-color: var(--color-paper);
+}
+
+.consult-context__frame {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    align-items: center;
+    padding: clamp(1.75rem, 3.5vw, 2.75rem);
+    background-color: var(--color-ivory);
+    border: 1px solid var(--color-border);
+    border-left: 2px solid var(--color-champagne);
+}
+
+.consult-context__label {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--ls-body);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+}
+
+.consult-context__name {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 1.15rem + 1.1vw, 2rem);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.2;
+    letter-spacing: var(--ls-serif);
+    color: var(--color-text-strong);
+    margin-bottom: var(--space-3);
+}
+
+.consult-context__desc {
+    font-size: var(--fs-body-sm);
+    color: var(--color-text);
+    line-height: var(--lh-body);
+    margin-bottom: var(--space-3);
+}
+
+.consult-context__note {
+    font-size: var(--fs-body-sm);
+    color: var(--color-text-muted);
+    line-height: var(--lh-body);
+}
+
+.consult-context__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+
+.consult-context__actions .btn {
+    margin-top: 0;
+}
+
+@media (min-width: 760px) {
+    .consult-context__frame {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: var(--space-8);
+    }
+}
+
+/* ---------- Contact channels ---------- */
+.consult-channels {
+    padding-top: var(--space-11);
+    padding-bottom: var(--space-12);
+    background-color: var(--color-paper);
+}
+
+.consult-channels__head {
+    margin-bottom: var(--space-9);
+}
+
+.consult-channels__lede {
+    margin-top: var(--space-5);
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-muted);
+    line-height: var(--lh-relaxed);
+    max-width: 54ch;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.consult-channels__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.consult-channel {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1.75rem, 3.5vw, 2.75rem);
+    background-color: var(--color-ivory);
+    border: 1px solid var(--color-border);
+    position: relative;
+}
+
+/* A short champagne rule at the top-left of each panel � a single
+   ornament, repeated, instead of a full-width band. */
+.consult-channel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: clamp(1.75rem, 3.5vw, 2.75rem);
+    width: 40px;
+    height: 2px;
+    background-color: var(--color-champagne);
+}
+
+/* The hotline is the primary channel, so it sits on the deep-brown
+   panel � but the number itself is kept at a civil size. The priority
+   comes from the contrast of the panel, not from an oversized number. */
+.consult-channel--hotline {
+    background-color: var(--color-brown);
+    border-color: var(--color-brown);
+}
+
+.consult-channel--hotline::before {
+    background-color: var(--color-champagne);
+}
+
+.consult-channel--hotline .consult-channel__label {
+    color: var(--color-champagne);
+}
+
+.consult-channel__label {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--ls-body);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+}
+
+.consult-channel__hotline {
+    display: inline-block;
+    font-family: var(--font-serif);
+    font-size: clamp(1.875rem, 1.4rem + 1.6vw, 2.375rem);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.15;
+    letter-spacing: var(--ls-serif);
+    color: var(--color-paper);
+    margin-bottom: var(--space-4);
+    font-variant-numeric: lining-nums tabular-nums;
+    transition: color var(--dur-base) var(--ease-soft);
+}
+
+.consult-channel__hotline:hover,
+.consult-channel__hotline:focus-visible {
+    color: var(--color-champagne);
+}
+
+.consult-channel__body {
+    font-size: var(--fs-body-sm);
+    color: var(--color-text-muted);
+    line-height: var(--lh-body);
+    max-width: 40ch;
+}
+
+/* The hotline panel carries inverted text, so its body copy needs the
+   lighter tone to stay readable on the dark brown fill. */
+.consult-channel--hotline .consult-channel__body {
+    color: rgba(248, 246, 240, 0.78);
+}
+
+.consult-channel .consult-link {
+    margin-top: auto;
+    padding-top: var(--space-5);
+    align-self: flex-start;
+}
+
+@media (min-width: 900px) {
+    .consult-channels__grid {
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr);
+        gap: var(--space-6);
+        align-items: stretch;
+    }
+}
+
+/* ---------- Consultation process ---------- */
+.consult-process {
+    padding-top: var(--space-11);
+    padding-bottom: var(--space-12);
+    background-color: var(--color-ivory);
+}
+
+.consult-process__head {
+    margin-bottom: var(--space-9);
+}
+
+.consult-process__lede {
+    margin-top: var(--space-5);
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-muted);
+    line-height: var(--lh-relaxed);
+    max-width: 54ch;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.consult-process__list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+    counter-reset: consult-step;
+}
+
+.consult-step {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    background-color: var(--color-paper);
+    border: 1px solid var(--color-border);
+    position: relative;
+}
+
+/* The number is set in the display serif inside a thin ring � the
+   same device the booking page used for its three-step panel. */
+.consult-step__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: var(--space-5);
+    font-family: var(--font-serif);
+    font-size: var(--fs-h6);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    background-color: var(--color-ivory);
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+}
+
+.consult-step__title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h5);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-strong);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--ls-heading);
+    margin-bottom: var(--space-3);
+}
+
+.consult-step__body {
+    font-size: var(--fs-body-sm);
+    color: var(--color-text-muted);
+    line-height: var(--lh-body);
+}
+
+.consult-process__note {
+    max-width: 720px;
+    margin: var(--space-8) auto 0;
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-line);
+    text-align: center;
+    font-size: var(--fs-body-sm);
+    color: var(--color-text-muted);
+    line-height: var(--lh-body);
+}
+
+@media (min-width: 700px) {
+    .consult-process__list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1100px) {
+    .consult-process__list {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+/* ---------- What the consultation covers ---------- */
+.consult-topics {
+    padding-top: var(--space-11);
+    padding-bottom: var(--space-12);
+    background-color: var(--color-paper);
+}
+
+.consult-topics__head {
+    margin-bottom: var(--space-9);
+}
+
+.consult-topics__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6) var(--space-7);
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.consult-topic {
+    padding: var(--space-6) var(--space-6) var(--space-6) var(--space-7);
+    border-left: 1px solid var(--color-champagne);
+}
+
+.consult-topic__title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h5);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-strong);
+    line-height: var(--lh-tight);
+    margin-bottom: var(--space-3);
+}
+
+.consult-topic__body {
+    font-size: var(--fs-body-sm);
+    color: var(--color-text-muted);
+    line-height: var(--lh-body);
+}
+
+@media (min-width: 700px) {
+    .consult-topics__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1100px) {
+    .consult-topics__grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+/* ---------- Venues ---------- */
+.consult-venues {
+    padding-top: var(--space-11);
+    padding-bottom: var(--space-12);
+    background-color: var(--color-ivory);
+}
+
+.consult-venues__head {
+    margin-bottom: var(--space-9);
+}
+
+.consult-venues__lede {
+    margin-top: var(--space-5);
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-muted);
+    line-height: var(--lh-relaxed);
+    max-width: 54ch;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.consult-venues__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8) var(--space-7);
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* A venue profile rather than a directory listing: a paper-white panel
+   with a single hairline border, the photograph bleeding to the top
+   edge of the panel, and a champagne hairline that catches the light
+   on hover. */
+.consult-venue {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-paper);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    transition: border-color var(--dur-base) var(--ease-soft),
+                box-shadow var(--dur-base) var(--ease-soft),
+                transform var(--dur-base) var(--ease-soft);
+}
+
+.consult-venue:hover {
+    border-color: var(--color-champagne);
+    box-shadow: 0 18px 44px rgba(44, 36, 28, 0.10);
+    transform: translateY(-2px);
+}
+
+.consult-venue__media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background-color: var(--color-cream);
+    border-bottom: 1px solid var(--color-line);
+}
+
+.consult-venue__media > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 720ms var(--ease-soft);
+}
+
+.consult-venue:hover .consult-venue__media > img {
+    transform: scale(1.03);
+}
+
+.consult-venue__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.consult-venue__meta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--ls-body);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+}
+
+.consult-venue__title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 1.15rem + 1.1vw, 2rem);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.2;
+    letter-spacing: var(--ls-serif);
+    color: var(--color-text-strong);
+    margin-bottom: var(--space-5);
+}
+
+/* The address is the piece of information a visitor actually wants
+   from this card, so it gets the clearest treatment on the page: a
+   quiet champagne rule, the address itself in the readable body tone,
+   and generous line-height for the long Vietnamese string. */
+.consult-venue__address {
+    display: block;
+    font-style: normal;
+    padding: 0 0 0 var(--space-5);
+    border-left: 1px solid var(--color-champagne);
+    margin-bottom: var(--space-6);
+}
+
+.consult-venue__address-label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--ls-body);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-1);
+}
+
+.consult-venue__address-text {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--color-text);
+    /* A long address must never push the card past the viewport. */
+    overflow-wrap: anywhere;
+}
+
+.consult-venue__actions {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4) var(--space-6);
+}
+
+.consult-venue__actions .btn,
+.consult-venue__actions .consult-link {
+    margin-top: 0;
+}
+
+/* The secondary button of a venue card: sentence case, so the primary
+   call to action keeps the upper-case voice to itself. */
+.consult-venue__btn {
+    text-transform: none;
+    letter-spacing: var(--ls-body);
+    font-size: var(--fs-body-sm);
+    padding: var(--space-3) var(--space-6);
+}
+
+@media (min-width: 760px) {
+    .consult-venues__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-9) var(--space-7);
+    }
+}
+
+/* ---------- Closing CTA ---------- */
+.consult-closing {
+    padding-top: var(--space-11);
+    padding-bottom: var(--space-12);
+    background-color: var(--color-ivory);
+}
+
+.consult-closing__inner {
+    position: relative;
+    max-width: 820px;
+    margin: 0 auto;
+}
+
+.consult-closing__frame {
+    position: relative;
+    padding: clamp(2.5rem, 4vw, 4.5rem) clamp(1.75rem, 4vw, 3.5rem);
+    text-align: center;
+    background-color: var(--color-paper);
+    border: 1px solid var(--color-border);
+}
+
+/* A single hairline rule inset from the frame � restrained, formal. */
+.consult-closing__frame::before {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border: 1px solid var(--color-line);
+    pointer-events: none;
+}
+
+.consult-closing__frame::after {
+    content: "";
+    position: absolute;
+    inset: 18px;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 0 0, var(--color-champagne) 0 2px, transparent 3px) top left / 100% 100% no-repeat,
+        radial-gradient(circle at 100% 0, var(--color-champagne) 0 2px, transparent 3px) top right / 100% 100% no-repeat,
+        radial-gradient(circle at 0 100%, var(--color-champagne) 0 2px, transparent 3px) bottom left / 100% 100% no-repeat,
+        radial-gradient(circle at 100% 100%, var(--color-champagne) 0 2px, transparent 3px) bottom right / 100% 100% no-repeat;
+}
+
+.consult-closing__frame > * {
+    position: relative;
+    z-index: 1;
+}
+
+.consult-closing__frame .eyebrow {
+    justify-content: center;
+}
+
+.consult-closing__lede {
+    margin: var(--space-6) auto var(--space-8);
+    max-width: 46ch;
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-muted);
+    line-height: var(--lh-relaxed);
+}
+
+.consult-closing__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-5) var(--space-6);
+}
+
+.consult-closing__actions .btn,
+.consult-closing__actions .consult-link {
+    margin-top: 0;
+}
+
+.consult-closing__note {
+    margin-top: var(--space-6);
+    font-size: var(--fs-body-sm);
+    color: var(--color-text-muted);
+    line-height: var(--lh-body);
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .consult-venue,
+    .consult-venue__media > img,
+    .consult-link span {
+        transition: none;
+    }
+
+    .consult-venue:hover {
+        transform: none;
+    }
+}
